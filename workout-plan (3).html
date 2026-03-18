@@ -1,0 +1,3583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Strength & Conditioning</title>
+  <style>*{box-sizing:border-box;margin:0;padding:0;}body{background:#09090f;color:#e2e8f0;font-family:'Courier New',monospace;}input{color-scheme:dark;}input:focus{outline:1px solid rgba(255,255,255,0.3);}::-webkit-scrollbar{width:6px;height:6px;}::-webkit-scrollbar-track{background:rgba(255,255,255,0.03);}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px;}</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script>
+const {useState,useEffect,useRef}=React;
+function SVGLineChart({data,color,goal,unit}){const[tooltip,setTooltip]=React.useState(null);const W=600,H=180,PL=45,PR=20,PT=10,PB=30,plotW=W-PL-PR,plotH=H-PT-PB;if(!data||data.length===0)return null;const vals=data.map(d=>d.value),allVals=[...vals,goal];let minV=Math.min(...allVals),maxV=Math.max(...allVals);const pad=(maxV-minV)*0.15||1;minV-=pad;maxV+=pad;const cx=i=>PL+(data.length<2?plotW/2:(i/(data.length-1))*plotW);const cy=v=>PT+plotH-((v-minV)/(maxV-minV))*plotH;const yTicks=Array.from({length:5},(_,i)=>minV+(maxV-minV)*(i/4));const points=data.map((d,i)=>cx(i)+','+cy(d.value)).join(' ');const areaPath=data.length>1?'M'+data.map((d,i)=>cx(i)+','+cy(d.value)).join(' L')+' L'+cx(data.length-1)+','+(PT+plotH)+' L'+cx(0)+','+(PT+plotH)+' Z':'';const goalY=cy(goal),showGoal=goalY>=PT&&goalY<=PT+plotH;return React.createElement('div',{style:{position:'relative',width:'100%'}},React.createElement('svg',{viewBox:'0 0 '+W+' '+H,style:{width:'100%',height:'auto',display:'block',overflow:'visible'},onMouseLeave:()=>setTooltip(null)},yTicks.map((v,i)=>React.createElement('line',{key:'g'+i,x1:PL,y1:cy(v),x2:PL+plotW,y2:cy(v),stroke:'rgba(255,255,255,0.05)',strokeWidth:1})),yTicks.map((v,i)=>React.createElement('text',{key:'yt'+i,x:PL-5,y:cy(v)+3,textAnchor:'end',fill:'#475569',fontSize:9,fontFamily:'Courier New'},Math.round(v*10)/10)),data.map((d,i)=>{const show=data.length<=6||i%Math.ceil(data.length/6)===0||i===data.length-1;return show?React.createElement('text',{key:'xl'+i,x:cx(i),y:PT+plotH+16,textAnchor:'middle',fill:'#475569',fontSize:9,fontFamily:'Courier New'},d.date):null;}),data.length>1&&React.createElement('path',{d:areaPath,fill:color,fillOpacity:0.08}),showGoal&&React.createElement('line',{x1:PL,y1:goalY,x2:PL+plotW,y2:goalY,stroke:color,strokeWidth:1.5,strokeDasharray:'4 4',strokeOpacity:0.5}),showGoal&&React.createElement('text',{x:PL+plotW+3,y:goalY+3,fill:color,fontSize:8,fillOpacity:0.7,fontFamily:'Courier New'},'GOAL'),data.length>1&&React.createElement('polyline',{points,fill:'none',stroke:color,strokeWidth:2.5,strokeLinecap:'round',strokeLinejoin:'round'}),data.map((d,i)=>React.createElement('g',{key:'dot'+i},React.createElement('circle',{cx:cx(i),cy:cy(d.value),r:4,fill:color}),React.createElement('circle',{cx:cx(i),cy:cy(d.value),r:14,fill:'transparent',style:{cursor:'crosshair'},onMouseEnter:e=>{const rect=e.currentTarget.closest('svg').getBoundingClientRect();setTooltip({x:(cx(i)/W)*rect.width,value:d.value,date:d.date});}})))),tooltip&&React.createElement('div',{style:{position:'absolute',left:Math.min(tooltip.x,180),top:'20%',transform:'translate(-50%,-100%)',background:'#1e1e2e',border:'1px solid rgba(255,255,255,0.15)',borderRadius:'8px',padding:'8px 12px',fontSize:'12px',pointerEvents:'none',zIndex:10,whiteSpace:'nowrap'}},React.createElement('div',{style:{color:'#94a3b8',marginBottom:'3px',fontSize:'10px'}},tooltip.date),React.createElement('div',{style:{color:'#f1f5f9',fontWeight:'bold',fontSize:'15px'}},tooltip.value,React.createElement('span',{style:{fontSize:'10px',color:'#64748b',marginLeft:'3px'}},unit))));}
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+var _videoLinks;
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function getWeekNumber() {
+  var start = new Date("2026-03-10"),
+    now = new Date();
+  return Math.floor((now - start) / (7 * 24 * 60 * 60 * 1000));
+}
+function seededPick(arr, n, seed) {
+  var s = _toConsumableArray(arr);
+  var x = seed + 1;
+  for (var i = s.length - 1; i > 0; i--) {
+    x = x * 1664525 + 1013904223 & 0xffffffff;
+    var j = Math.abs(x) % (i + 1);
+    var _ref = [s[j], s[i]];
+    s[i] = _ref[0];
+    s[j] = _ref[1];
+  }
+  return s.slice(0, n);
+}
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+function todayDayIndex() {
+  var d = new Date().getDay();
+  return d === 0 ? 6 : d - 1;
+}
+function getWeekStr() {
+  var d = new Date(),
+    mon = new Date(d);
+  mon.setDate(d.getDate() - todayDayIndex());
+  return mon.toISOString().slice(0, 10);
+}
+
+// ─── EXERCISE LIBRARY (for swapping) ─────────────────────────────────────────
+// zone tags: upper | lower | core | full | cardio | recovery
+var EX_LIBRARY = {
+  upper: [{
+    name: "DB Push Press",
+    sets: "3×10",
+    note: "Leg drive to launch DBs overhead"
+  }, {
+    name: "DB Bent-Over Row",
+    sets: "3×12",
+    note: "Hinge 45°, squeeze shoulder blade at top"
+  }, {
+    name: "Push-Ups",
+    sets: "3×max",
+    note: "Full range — knees fine if needed"
+  }, {
+    name: "KB Single-Arm Row",
+    sets: "3×10ea",
+    note: "Brace on knee, elbow drives to ceiling"
+  }, {
+    name: "DB Shoulder Press",
+    sets: "3×10",
+    note: "Press straight up, controlled descent"
+  }, {
+    name: "KB Renegade Row",
+    sets: "3×8",
+    note: "Plank position — don't let hips rotate"
+  }, {
+    name: "DB Floor Press",
+    sets: "3×12",
+    note: "Full chest stretch at the bottom"
+  }, {
+    name: "Diamond Push-Ups",
+    sets: "3×10",
+    note: "Hands form a diamond under chest"
+  }, {
+    name: "KB Arnold Press",
+    sets: "3×10",
+    note: "Rotate palms as you press overhead"
+  }, {
+    name: "DB Curl",
+    sets: "3×12",
+    note: "Supinate wrist at top, slow on the way down"
+  }, {
+    name: "Dips (chair)",
+    sets: "3×max",
+    note: "Elbows straight back, full range"
+  }, {
+    name: "Hammer Curl",
+    sets: "3×12",
+    note: "Palms face each other throughout"
+  }, {
+    name: "Push-Up Variations",
+    sets: "3×max",
+    note: "Archer, decline, or close-grip"
+  }, {
+    name: "KB Windmill",
+    sets: "3×6ea",
+    note: "Slow and controlled — go light first"
+  }, {
+    name: "DB Lateral Raise",
+    sets: "3×15",
+    note: "Slight elbow bend, raise to shoulder height"
+  }, {
+    name: "Inverted Row",
+    sets: "3×max",
+    note: "Use sturdy table edge, body straight"
+  }],
+  lower: [{
+    name: "KB Goblet Squat",
+    sets: "4×12",
+    note: "Elbows touch knees at bottom, chest tall"
+  }, {
+    name: "DB Romanian Deadlift",
+    sets: "3×12",
+    note: "Hinge hips, soft knee, feel the stretch"
+  }, {
+    name: "Reverse Lunges",
+    sets: "3×10ea",
+    note: "Step back, knee hovers above floor"
+  }, {
+    name: "KB Swing",
+    sets: "4×15",
+    note: "Hip snap — not a squat, not an arm raise"
+  }, {
+    name: "DB Split Squat",
+    sets: "3×10ea",
+    note: "Front foot flat, rear heel up"
+  }, {
+    name: "Step-Ups",
+    sets: "3×12ea",
+    note: "Drive through heel, full extension at top"
+  }, {
+    name: "DB Sumo Deadlift",
+    sets: "3×12",
+    note: "Wide stance, toes out, hips drive forward"
+  }, {
+    name: "Glute Bridge",
+    sets: "3×15",
+    note: "Pause 2s at top, squeeze glutes hard"
+  }, {
+    name: "Walking Lunge",
+    sets: "3×10ea",
+    note: "Long stride, chest tall throughout"
+  }, {
+    name: "Single-Leg RDL",
+    sets: "3×8ea",
+    note: "Slow and controlled — wall for balance"
+  }, {
+    name: "Lateral Lunges",
+    sets: "3×10ea",
+    note: "Wide step, sit into hip, other leg straight"
+  }, {
+    name: "Calf Raises",
+    sets: "3×20",
+    note: "Slow eccentric — 3 seconds down"
+  }, {
+    name: "Hip Thrust (DB)",
+    sets: "3×12",
+    note: "Upper back on couch, DB on hips"
+  }, {
+    name: "Nordic Hamstring Curl",
+    sets: "3×5",
+    note: "Anchor feet, lower as slowly as possible"
+  }, {
+    name: "Plyometric Lunge",
+    sets: "3×8ea",
+    note: "Jump to switch — land soft, absorb impact"
+  }, {
+    name: "Wall Sit",
+    sets: "3×45s",
+    note: "90° at the knee, back flat on wall"
+  }],
+  core: [{
+    name: "Plank",
+    sets: "3×45s",
+    note: "Straight line head to heel, breathe steady"
+  }, {
+    name: "Dead Bug",
+    sets: "3×10",
+    note: "Opposite arm/leg, lower back stays flat"
+  }, {
+    name: "Hollow Body Hold",
+    sets: "3×30s",
+    note: "Lower back pressed into floor, arms long"
+  }, {
+    name: "Russian Twist",
+    sets: "3×20",
+    note: "Hold KB, rotate side to side"
+  }, {
+    name: "Mountain Climbers",
+    sets: "3×20",
+    note: "Controlled — hips stay level"
+  }, {
+    name: "KB Figure 8",
+    sets: "3×10ea",
+    note: "Figure 8 between legs — grip + core"
+  }, {
+    name: "Bicycle Crunch",
+    sets: "3×20",
+    note: "Slow and deliberate — don't pull neck"
+  }, {
+    name: "Side Plank",
+    sets: "3×30sea",
+    note: "Stack feet or stagger for stability"
+  }, {
+    name: "V-Up",
+    sets: "3×12",
+    note: "Reach hands toward feet at the top"
+  }, {
+    name: "Hanging Knee Raise",
+    sets: "3×12",
+    note: "Or lying leg raise if no bar"
+  }, {
+    name: "L-Sit Hold",
+    sets: "3×15s",
+    note: "Two chairs — tuck version is fine"
+  }, {
+    name: "Ab Wheel Rollout",
+    sets: "3×8",
+    note: "Slow out, pull core to return"
+  }],
+  full: [{
+    name: "KB Thruster",
+    sets: "3×8",
+    note: "Squat to overhead press in one motion"
+  }, {
+    name: "Burpees",
+    sets: "3×8",
+    note: "Full range — step instead of jump if needed"
+  }, {
+    name: "KB Clean & Press",
+    sets: "4×6ea",
+    note: "Hip drive cleans it, press to finish"
+  }, {
+    name: "DB Farmer Carry",
+    sets: "3×40m",
+    note: "Heavy DBs, tall posture, tight core"
+  }, {
+    name: "KB Complex",
+    sets: "3×6",
+    note: "Swing → Clean → Press back to back"
+  }, {
+    name: "KB Turkish Get-Up",
+    sets: "3×3ea",
+    note: "Slow and deliberate — watch tutorial first"
+  }, {
+    name: "DB Thruster",
+    sets: "3×10",
+    note: "Squat deep, press at full extension"
+  }, {
+    name: "Man Maker",
+    sets: "3×6",
+    note: "Push-up, row each arm, squat, press"
+  }, {
+    name: "Burpee to Row",
+    sets: "3×8",
+    note: "Burpee then immediately row 250m"
+  }],
+  cardio: [{
+    name: "Rowing Machine",
+    sets: "1×8min",
+    note: "Steady effort, consistent split times"
+  }, {
+    name: "Rowing Intervals",
+    sets: "4×250m",
+    note: "Hard effort, 60s rest between each"
+  }, {
+    name: "Easy Row",
+    sets: "1×10min",
+    note: "Very easy pace — heart rate under 120"
+  }, {
+    name: "Jump Rope",
+    sets: "3×2min",
+    note: "Alternate feet or two-foot bounce"
+  }, {
+    name: "High Knees",
+    sets: "3×40s",
+    note: "Drive knees to hip height, stay on balls of feet"
+  }, {
+    name: "Shadow Boxing",
+    sets: "3×3min",
+    note: "Jab, cross, hook — keep feet moving"
+  }, {
+    name: "Stair Climbs",
+    sets: "10 rds",
+    note: "Walk or run up and down a flight"
+  }, {
+    name: "KB Swing",
+    sets: "5×20",
+    note: "Continuous — conditioning focus"
+  }],
+  recovery: [{
+    name: "Rowing Machine",
+    sets: "1×10min",
+    note: "Very easy effort — Zone 1 only"
+  }, {
+    name: "KB Halos",
+    sets: "3×10ea",
+    note: "Slow circles — shoulder warm-down"
+  }, {
+    name: "Dead Bug",
+    sets: "3×8",
+    note: "Activates deep core, easy on joints"
+  }, {
+    name: "Bodyweight Squat Flow",
+    sets: "3×10",
+    note: "Slow, deep squats — feel every inch"
+  }, {
+    name: "Cat-Cow Flow",
+    sets: "3×10",
+    note: "Breathe with movement, no rushing"
+  }, {
+    name: "Easy Row",
+    sets: "1×15min",
+    note: "Zone 1 — full recovery effort"
+  }]
+};
+
+// Map each exercise name → its zone
+var EX_ZONES = _defineProperty(_defineProperty(_defineProperty({
+  "DB Push Press": "upper",
+  "DB Bent-Over Row": "upper",
+  "Push-Ups": "upper",
+  "KB Single-Arm Row": "upper",
+  "DB Shoulder Press": "upper",
+  "KB Renegade Row": "upper",
+  "DB Floor Press": "upper",
+  "Diamond Push-Ups": "upper",
+  "KB Arnold Press": "upper",
+  "DB Curl": "upper",
+  "Dips (chair)": "upper",
+  "Hammer Curl": "upper",
+  "Push-Up Variations": "upper",
+  "KB Windmill": "upper",
+  "DB Lateral Raise": "upper",
+  "Inverted Row": "upper",
+  "KB Goblet Squat": "lower",
+  "DB Romanian Deadlift": "lower",
+  "Reverse Lunges": "lower",
+  "KB Swing": "lower",
+  "DB Split Squat": "lower",
+  "Step-Ups": "lower",
+  "DB Sumo Deadlift": "lower",
+  "Glute Bridge": "lower",
+  "Walking Lunge": "lower",
+  "Single-Leg RDL": "lower",
+  "Lateral Lunges": "lower",
+  "Calf Raises": "lower",
+  "Hip Thrust (DB)": "lower",
+  "Nordic Hamstring Curl": "lower",
+  "Plyometric Lunge": "lower",
+  "Wall Sit": "lower",
+  "Plank": "core",
+  "Dead Bug": "core",
+  "Hollow Body Hold": "core",
+  "Russian Twist": "core",
+  "Mountain Climbers": "core",
+  "KB Figure 8": "core",
+  "Bicycle Crunch": "core",
+  "Side Plank": "core",
+  "V-Up": "core",
+  "Hanging Knee Raise": "core",
+  "L-Sit Hold": "core",
+  "Ab Wheel Rollout": "core",
+  "KB Thruster": "full",
+  "Burpees": "full",
+  "KB Clean & Press": "full",
+  "DB Farmer Carry": "full",
+  "KB Complex": "full",
+  "KB Turkish Get-Up": "full",
+  "DB Thruster": "full",
+  "Man Maker": "full",
+  "Burpee to Row": "full",
+  "Rowing Machine": "cardio",
+  "Rowing Intervals": "cardio",
+  "Easy Row": "cardio",
+  "Jump Rope": "cardio",
+  "High Knees": "cardio",
+  "Shadow Boxing": "cardio",
+  "Stair Climbs": "cardio",
+  "KB Halos": "recovery"
+}, "Dead Bug", "recovery"), "Bodyweight Squat Flow", "recovery"), "Cat-Cow Flow", "recovery");
+
+// ─── STRETCH LIBRARY (for swapping) ──────────────────────────────────────────
+// zone tags: chest | back | shoulders | hips | hamstrings | quads | calves | spine | full
+var ST_LIBRARY = {
+  chest: [{
+    name: "Doorway Chest Stretch",
+    duration: "2×40s",
+    note: "Arms at 90°, lean gently into doorframe"
+  }, {
+    name: "Floor Chest Opener",
+    duration: "2×40s",
+    note: "Lie face up, arms out to sides, breathe deep"
+  }, {
+    name: "Pec Minor Stretch",
+    duration: "2×30sea",
+    note: "Hand on wall, rotate body away slowly"
+  }, {
+    name: "Foam Roll Chest",
+    duration: "2×30s",
+    note: "Roll perpendicular across upper chest"
+  }, {
+    name: "Seated Chest Squeeze",
+    duration: "3×10",
+    note: "Elbows back, squeeze shoulder blades, hold 2s"
+  }],
+  back: [{
+    name: "Lat Hang Stretch",
+    duration: "2×30s",
+    note: "Hang from bar or door, shift side to side"
+  }, {
+    name: "Child's Pose",
+    duration: "2×40s",
+    note: "Arms long, sink hips back toward heels"
+  }, {
+    name: "Seated Forward Fold",
+    duration: "2×40s",
+    note: "Legs straight, reach for feet, flat back first"
+  }, {
+    name: "Superman Hold",
+    duration: "3×20s",
+    note: "Face down, lift arms and legs off floor"
+  }, {
+    name: "Cat-Cow",
+    duration: "2×10",
+    note: "Breathe in on cow, breathe out on cat"
+  }, {
+    name: "Thread the Needle",
+    duration: "2×30sea",
+    note: "On all fours, reach arm under and rotate"
+  }],
+  shoulders: [{
+    name: "Cross-Body Shoulder",
+    duration: "2×30sea",
+    note: "Pull arm across chest, feel rear delt"
+  }, {
+    name: "Overhead Tricep Stretch",
+    duration: "2×30sea",
+    note: "Elbow up, hand drops behind head"
+  }, {
+    name: "Doorway Chest Stretch",
+    duration: "2×40s",
+    note: "Arms at 90°, lean gently forward"
+  }, {
+    name: "Neck Side Stretch",
+    duration: "2×30sea",
+    note: "Ear to shoulder, gentle hand weight"
+  }, {
+    name: "Behind-Back Shoulder",
+    duration: "2×30sea",
+    note: "Both hands behind back, one grips other wrist"
+  }, {
+    name: "Chest-Up Thoracic",
+    duration: "2×10",
+    note: "Hands behind head, open chest to ceiling"
+  }],
+  hips: [{
+    name: "Hip Flexor Lunge Stretch",
+    duration: "2×45sea",
+    note: "Back knee on floor, push hips forward"
+  }, {
+    name: "Pigeon Pose",
+    duration: "2×45sea",
+    note: "Deep hip opener — breathe through it"
+  }, {
+    name: "Figure-4 Glute Stretch",
+    duration: "2×40sea",
+    note: "On back, ankle on knee, pull toward chest"
+  }, {
+    name: "Couch Stretch",
+    duration: "2×45sea",
+    note: "Rear foot on wall, drive hip to floor"
+  }, {
+    name: "Hip 90/90",
+    duration: "2×45sea",
+    note: "Both hips at 90°, alternate leaning forward"
+  }, {
+    name: "Adductor Stretch",
+    duration: "2×40sea",
+    note: "Wide squat, elbows push knees out"
+  }, {
+    name: "World's Greatest Stretch",
+    duration: "2×5ea",
+    note: "Lunge, rotate, reach — covers everything"
+  }],
+  hamstrings: [{
+    name: "Standing Hamstring",
+    duration: "2×45sea",
+    note: "Heel on chair, hinge forward with flat back"
+  }, {
+    name: "Seated Forward Fold",
+    duration: "2×40s",
+    note: "Legs straight, reach for feet, flat back"
+  }, {
+    name: "Lying Hamstring Stretch",
+    duration: "2×40sea",
+    note: "On back, loop towel around foot, straighten leg"
+  }, {
+    name: "Nordic Stretch (passive)",
+    duration: "2×30s",
+    note: "Anchor feet, lean back slowly and hold"
+  }, {
+    name: "Downward Dog",
+    duration: "2×30s",
+    note: "Press heels down, alternate pedalling feet"
+  }],
+  quads: [{
+    name: "Standing Quad Stretch",
+    duration: "2×30sea",
+    note: "Pull heel to glute, keep knees together"
+  }, {
+    name: "Couch Stretch",
+    duration: "2×45sea",
+    note: "Rear foot on wall, sink hip to floor"
+  }, {
+    name: "Kneeling Quad Stretch",
+    duration: "2×40sea",
+    note: "Back knee on pad, lean gently back"
+  }, {
+    name: "Prone Quad Stretch",
+    duration: "2×30sea",
+    note: "Face down, bend knee, hold ankle"
+  }],
+  calves: [{
+    name: "Calf Stretch (wall)",
+    duration: "2×40sea",
+    note: "Heel down, push wall, straight leg"
+  }, {
+    name: "Downward Dog",
+    duration: "2×30s",
+    note: "Press heels down, pedal feet alternately"
+  }, {
+    name: "Step Calf Stretch",
+    duration: "2×30sea",
+    note: "Heel off step edge, lower slowly"
+  }, {
+    name: "Seated Towel Calf Pull",
+    duration: "2×30sea",
+    note: "Loop towel around foot, pull toes toward you"
+  }],
+  spine: [{
+    name: "Lying Spinal Twist",
+    duration: "2×40sea",
+    note: "On back, knee crosses over, arms wide"
+  }, {
+    name: "Thoracic Rotation",
+    duration: "2×10ea",
+    note: "On all fours, thread arm under and rotate"
+  }, {
+    name: "Cat-Cow",
+    duration: "2×10",
+    note: "Breathe in on cow, breathe out on cat"
+  }, {
+    name: "Seated Spinal Twist",
+    duration: "2×30sea",
+    note: "Cross leg over, rotate toward raised knee"
+  }, {
+    name: "Child's Pose",
+    duration: "2×40s",
+    note: "Arms long or wide, breathe into lower back"
+  }, {
+    name: "Foam Roll Thoracic",
+    duration: "2×30s",
+    note: "Roll along upper back, pause on tight spots"
+  }],
+  full: [{
+    name: "World's Greatest Stretch",
+    duration: "2×5ea",
+    note: "Lunge, rotate, reach overhead — covers everything"
+  }, {
+    name: "Full Body Stretch Flow",
+    duration: "5 min",
+    note: "Neck → shoulders → chest → hips → calves"
+  }, {
+    name: "Sun Salutation Flow",
+    duration: "3×flow",
+    note: "Slow yoga flow — links breath to movement"
+  }, {
+    name: "Hip 90/90 Flow",
+    duration: "2×45sea",
+    note: "Full hip rotation, both directions"
+  }, {
+    name: "Foam Roll Full Body",
+    duration: "5 min",
+    note: "Quads, IT band, glutes, upper back"
+  }]
+};
+
+// Map each stretch name → its zone
+var ST_ZONES = {
+  "Doorway Chest Stretch": "chest",
+  "Floor Chest Opener": "chest",
+  "Pec Minor Stretch": "chest",
+  "Foam Roll Chest": "chest",
+  "Seated Chest Squeeze": "chest",
+  "Lat Hang Stretch": "back",
+  "Child's Pose": "back",
+  "Seated Forward Fold": "back",
+  "Superman Hold": "back",
+  "Cat-Cow": "back",
+  "Thread the Needle": "back",
+  "Cross-Body Shoulder": "shoulders",
+  "Overhead Tricep Stretch": "shoulders",
+  "Neck Side Stretch": "shoulders",
+  "Behind-Back Shoulder": "shoulders",
+  "Chest-Up Thoracic": "shoulders",
+  "Hip Flexor Lunge Stretch": "hips",
+  "Pigeon Pose": "hips",
+  "Figure-4 Glute Stretch": "hips",
+  "Couch Stretch": "hips",
+  "Hip 90/90": "hips",
+  "Adductor Stretch": "hips",
+  "Standing Hamstring": "hamstrings",
+  "Lying Hamstring Stretch": "hamstrings",
+  "Nordic Stretch (passive)": "hamstrings",
+  "Downward Dog": "hamstrings",
+  "Standing Quad Stretch": "quads",
+  "Kneeling Quad Stretch": "quads",
+  "Prone Quad Stretch": "quads",
+  "Calf Stretch (wall)": "calves",
+  "Step Calf Stretch": "calves",
+  "Seated Towel Calf Pull": "calves",
+  "Lying Spinal Twist": "spine",
+  "Thoracic Rotation": "spine",
+  "Seated Spinal Twist": "spine",
+  "Foam Roll Thoracic": "spine",
+  "Cat-Cow Flow": "spine",
+  "World's Greatest Stretch": "full",
+  "Full Body Stretch Flow": "full",
+  "Sun Salutation Flow": "full",
+  "Hip 90/90 Flow": "full",
+  "Foam Roll Full Body": "full"
+};
+
+// Zone display config
+var ZONE_META = {
+  upper: {
+    label: "Upper Body",
+    color: "#3b82f6"
+  },
+  lower: {
+    label: "Lower Body",
+    color: "#22c55e"
+  },
+  core: {
+    label: "Core",
+    color: "#facc15"
+  },
+  full: {
+    label: "Full Body",
+    color: "#e879f9"
+  },
+  cardio: {
+    label: "Cardio",
+    color: "#34d399"
+  },
+  recovery: {
+    label: "Recovery",
+    color: "#38bdf8"
+  },
+  chest: {
+    label: "Chest",
+    color: "#f97316"
+  },
+  back: {
+    label: "Back",
+    color: "#3b82f6"
+  },
+  shoulders: {
+    label: "Shoulders",
+    color: "#a78bfa"
+  },
+  hips: {
+    label: "Hips & Glutes",
+    color: "#fb923c"
+  },
+  hamstrings: {
+    label: "Hamstrings",
+    color: "#4ade80"
+  },
+  quads: {
+    label: "Quads",
+    color: "#facc15"
+  },
+  calves: {
+    label: "Calves",
+    color: "#f472b6"
+  },
+  spine: {
+    label: "Spine",
+    color: "#38bdf8"
+  }
+};
+function getExAlts(name) {
+  var z = EX_ZONES[name] || "full";
+  return (EX_LIBRARY[z] || EX_LIBRARY.full).filter(function (e) {
+    return e.name !== name;
+  });
+}
+function getStAlts(name) {
+  var z = ST_ZONES[name] || "full";
+  return (ST_LIBRARY[z] || ST_LIBRARY.full).filter(function (s) {
+    return s.name !== name;
+  });
+}
+
+// ─── VIDEO LINKS ─────────────────────────────────────────────────────────────
+var videoLinks = (_videoLinks = {
+  // Exercises
+  "DB Push Press": "https://www.youtube.com/results?search_query=dumbbell+push+press+tutorial",
+  "DB Bent-Over Row": "https://www.youtube.com/results?search_query=dumbbell+bent+over+row+tutorial",
+  "Push-Ups": "https://www.youtube.com/results?search_query=push+ups+proper+form+beginner",
+  "KB Single-Arm Row": "https://www.youtube.com/results?search_query=kettlebell+single+arm+row+tutorial",
+  "DB Shoulder Press": "https://www.youtube.com/results?search_query=dumbbell+shoulder+press+tutorial",
+  "KB Renegade Row": "https://www.youtube.com/results?search_query=kettlebell+renegade+row+tutorial",
+  "DB Floor Press": "https://www.youtube.com/results?search_query=dumbbell+floor+press+tutorial",
+  "Diamond Push-Ups": "https://www.youtube.com/results?search_query=diamond+push+ups+tutorial",
+  "KB Arnold Press": "https://www.youtube.com/results?search_query=arnold+press+kettlebell+tutorial",
+  "KB Goblet Squat": "https://www.youtube.com/results?search_query=goblet+squat+tutorial+beginner",
+  "DB Romanian Deadlift": "https://www.youtube.com/results?search_query=romanian+deadlift+dumbbell+tutorial",
+  "Reverse Lunges": "https://www.youtube.com/results?search_query=reverse+lunge+tutorial",
+  "KB Swing": "https://www.youtube.com/results?search_query=kettlebell+swing+tutorial+beginner",
+  "DB Split Squat": "https://www.youtube.com/results?search_query=dumbbell+split+squat+tutorial",
+  "Step-Ups": "https://www.youtube.com/results?search_query=step+up+exercise+tutorial",
+  "DB Sumo Deadlift": "https://www.youtube.com/results?search_query=dumbbell+sumo+deadlift+tutorial",
+  "Glute Bridge": "https://www.youtube.com/results?search_query=glute+bridge+tutorial",
+  "Walking Lunge": "https://www.youtube.com/results?search_query=walking+lunge+tutorial",
+  "KB Thruster": "https://www.youtube.com/results?search_query=kettlebell+thruster+tutorial",
+  "Plank": "https://www.youtube.com/results?search_query=plank+form+tutorial",
+  "Dead Bug": "https://www.youtube.com/results?search_query=dead+bug+exercise+tutorial",
+  "Mountain Climbers": "https://www.youtube.com/results?search_query=mountain+climbers+exercise+tutorial",
+  "Russian Twist": "https://www.youtube.com/results?search_query=russian+twist+tutorial",
+  "Hollow Body Hold": "https://www.youtube.com/results?search_query=hollow+body+hold+tutorial",
+  "KB Figure 8": "https://www.youtube.com/results?search_query=kettlebell+figure+8+tutorial",
+  "Burpees": "https://www.youtube.com/results?search_query=burpees+tutorial+beginner",
+  "DB Curl": "https://www.youtube.com/results?search_query=dumbbell+bicep+curl+tutorial",
+  "Dips (chair)": "https://www.youtube.com/results?search_query=chair+dips+tutorial",
+  "Hammer Curl": "https://www.youtube.com/results?search_query=hammer+curl+tutorial",
+  "Push-Up Variations": "https://www.youtube.com/results?search_query=push+up+variations+tutorial",
+  "KB Windmill": "https://www.youtube.com/results?search_query=kettlebell+windmill+tutorial",
+  "DB Lateral Raise": "https://www.youtube.com/results?search_query=dumbbell+lateral+raise+tutorial",
+  "Inverted Row": "https://www.youtube.com/results?search_query=inverted+row+tutorial",
+  "Single-Leg RDL": "https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+tutorial",
+  "Lateral Lunges": "https://www.youtube.com/results?search_query=lateral+lunge+tutorial",
+  "Calf Raises": "https://www.youtube.com/results?search_query=calf+raises+eccentric+tutorial",
+  "Hip Thrust (DB)": "https://www.youtube.com/results?search_query=dumbbell+hip+thrust+tutorial",
+  "Nordic Hamstring Curl": "https://www.youtube.com/results?search_query=nordic+hamstring+curl+tutorial",
+  "Plyometric Lunge": "https://www.youtube.com/results?search_query=jump+lunge+plyometric+tutorial",
+  "KB Clean & Press": "https://www.youtube.com/results?search_query=kettlebell+clean+and+press+tutorial",
+  "DB Farmer Carry": "https://www.youtube.com/results?search_query=farmer+carry+tutorial",
+  "KB Complex": "https://www.youtube.com/results?search_query=kettlebell+complex+tutorial",
+  "Rowing Machine": "https://www.youtube.com/results?search_query=rowing+machine+form+tutorial",
+  "KB Turkish Get-Up": "https://www.youtube.com/results?search_query=turkish+get+up+tutorial",
+  "DB Thruster": "https://www.youtube.com/results?search_query=dumbbell+thruster+tutorial",
+  "Rowing Intervals": "https://www.youtube.com/results?search_query=rowing+intervals+tutorial",
+  "Man Maker": "https://www.youtube.com/results?search_query=man+maker+exercise+tutorial",
+  "KB Halos": "https://www.youtube.com/results?search_query=kettlebell+halo+tutorial",
+  "Bodyweight Squat Flow": "https://www.youtube.com/results?search_query=deep+squat+mobility+tutorial",
+  "Easy Row": "https://www.youtube.com/results?search_query=rowing+machine+beginner+form",
+  "Cat-Cow Flow": "https://www.youtube.com/results?search_query=cat+cow+yoga+tutorial",
+  "Burpee to Row": "https://www.youtube.com/results?search_query=burpee+rowing+machine+workout",
+  "Bicycle Crunch": "https://www.youtube.com/results?search_query=bicycle+crunch+tutorial",
+  "Side Plank": "https://www.youtube.com/results?search_query=side+plank+tutorial",
+  "V-Up": "https://www.youtube.com/results?search_query=v+up+exercise+tutorial",
+  "Hanging Knee Raise": "https://www.youtube.com/results?search_query=hanging+knee+raise+tutorial",
+  "L-Sit Hold": "https://www.youtube.com/results?search_query=l+sit+hold+tutorial",
+  "Ab Wheel Rollout": "https://www.youtube.com/results?search_query=ab+wheel+rollout+tutorial",
+  "Wall Sit": "https://www.youtube.com/results?search_query=wall+sit+exercise+tutorial",
+  "Jump Rope": "https://www.youtube.com/results?search_query=jump+rope+tutorial+beginner",
+  "High Knees": "https://www.youtube.com/results?search_query=high+knees+exercise+tutorial",
+  "Shadow Boxing": "https://www.youtube.com/results?search_query=shadow+boxing+workout+tutorial",
+  // Stretches
+  "Doorway Chest Stretch": "https://www.youtube.com/results?search_query=doorway+chest+stretch+tutorial",
+  "Floor Chest Opener": "https://www.youtube.com/results?search_query=floor+chest+opener+stretch",
+  "Pec Minor Stretch": "https://www.youtube.com/results?search_query=pec+minor+stretch+tutorial",
+  "Cross-Body Shoulder": "https://www.youtube.com/results?search_query=cross+body+shoulder+stretch",
+  "Overhead Tricep Stretch": "https://www.youtube.com/results?search_query=overhead+tricep+stretch",
+  "Thread the Needle": "https://www.youtube.com/results?search_query=thread+the+needle+stretch+tutorial",
+  "Lat Hang Stretch": "https://www.youtube.com/results?search_query=lat+hang+stretch+tutorial",
+  "Hip Flexor Lunge Stretch": "https://www.youtube.com/results?search_query=hip+flexor+lunge+stretch+tutorial",
+  "Pigeon Pose": "https://www.youtube.com/results?search_query=pigeon+pose+tutorial+beginner",
+  "Figure-4 Glute Stretch": "https://www.youtube.com/results?search_query=figure+4+glute+stretch+tutorial",
+  "Couch Stretch": "https://www.youtube.com/results?search_query=couch+stretch+quad+hip+tutorial",
+  "Hip 90/90": "https://www.youtube.com/results?search_query=90+90+hip+stretch+tutorial",
+  "Adductor Stretch": "https://www.youtube.com/results?search_query=adductor+groin+stretch+tutorial",
+  "Standing Hamstring": "https://www.youtube.com/results?search_query=standing+hamstring+stretch+tutorial",
+  "Lying Hamstring Stretch": "https://www.youtube.com/results?search_query=lying+hamstring+stretch+tutorial",
+  "Nordic Stretch (passive)": "https://www.youtube.com/results?search_query=nordic+hamstring+stretch+passive",
+  "Downward Dog": "https://www.youtube.com/results?search_query=downward+dog+tutorial+beginner",
+  "Standing Quad Stretch": "https://www.youtube.com/results?search_query=standing+quad+stretch+tutorial",
+  "Kneeling Quad Stretch": "https://www.youtube.com/results?search_query=kneeling+quad+stretch+tutorial"
+}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_videoLinks, "Couch Stretch", "https://www.youtube.com/results?search_query=couch+stretch+hip+flexor+quad"), "Calf Stretch (wall)", "https://www.youtube.com/results?search_query=wall+calf+stretch+tutorial"), "Step Calf Stretch", "https://www.youtube.com/results?search_query=step+calf+stretch+eccentric"), "Seated Towel Calf Pull", "https://www.youtube.com/results?search_query=towel+calf+stretch+seated"), "Lying Spinal Twist", "https://www.youtube.com/results?search_query=lying+spinal+twist+stretch+tutorial"), "Thoracic Rotation", "https://www.youtube.com/results?search_query=thoracic+rotation+stretch+tutorial"), "Cat-Cow", "https://www.youtube.com/results?search_query=cat+cow+stretch+tutorial"), "Seated Spinal Twist", "https://www.youtube.com/results?search_query=seated+spinal+twist+tutorial"), "Child's Pose", "https://www.youtube.com/results?search_query=child+pose+yoga+tutorial"), "Seated Forward Fold", "https://www.youtube.com/results?search_query=seated+forward+fold+tutorial"), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_videoLinks, "World's Greatest Stretch", "https://www.youtube.com/results?search_query=worlds+greatest+stretch+tutorial"), "Full Body Stretch Flow", "https://www.youtube.com/results?search_query=full+body+stretch+routine"), "Sun Salutation Flow", "https://www.youtube.com/results?search_query=sun+salutation+beginner+tutorial"), "Hip 90/90 Flow", "https://www.youtube.com/results?search_query=90+90+hip+flow+tutorial"), "Foam Roll Full Body", "https://www.youtube.com/results?search_query=foam+rolling+full+body+tutorial"), "Neck Side Stretch", "https://www.youtube.com/results?search_query=neck+side+stretch+tutorial"), "Chest-Up Thoracic", "https://www.youtube.com/results?search_query=thoracic+extension+stretch+tutorial"), "Wrist Flexor Stretch", "https://www.youtube.com/results?search_query=wrist+flexor+stretch+tutorial"), "Foam Roll Thoracic", "https://www.youtube.com/results?search_query=thoracic+foam+roll+tutorial"));
+
+// ─── DAY PLANS ────────────────────────────────────────────────────────────────
+var DAY_PLANS = [{
+  day: "MON",
+  label: "Upper Body",
+  focus: "Chest · Back · Shoulders",
+  color: "#3b82f6",
+  duration: "20-25 min",
+  exZone: "upper",
+  exercises: [{
+    name: "DB Push Press",
+    sets: "3×10",
+    time: "6 min",
+    note: "Drive legs to launch DBs overhead"
+  }, {
+    name: "DB Bent-Over Row",
+    sets: "3×12",
+    time: "6 min",
+    note: "Hinge 45°, squeeze shoulder blade at top"
+  }, {
+    name: "Push-Ups",
+    sets: "3×max",
+    time: "5 min",
+    note: "Full range — knees fine if needed"
+  }, {
+    name: "KB Single-Arm Row",
+    sets: "3×10ea",
+    time: "7 min",
+    note: "Brace on knee, elbow drives to ceiling"
+  }, {
+    name: "DB Shoulder Press",
+    sets: "3×10",
+    time: "6 min",
+    note: "Press straight up, controlled descent"
+  }, {
+    name: "KB Renegade Row",
+    sets: "3×8",
+    time: "7 min",
+    note: "Plank position — don't let hips rotate"
+  }, {
+    name: "DB Floor Press",
+    sets: "3×12",
+    time: "6 min",
+    note: "Chest stretch at bottom, explode up"
+  }, {
+    name: "Diamond Push-Ups",
+    sets: "3×10",
+    time: "5 min",
+    note: "Hands form a diamond under chest"
+  }, {
+    name: "KB Arnold Press",
+    sets: "3×10",
+    time: "6 min",
+    note: "Rotate palms inward at bottom, out at top"
+  }],
+  stretches: [{
+    name: "Doorway Chest Stretch",
+    duration: "2×40s",
+    note: "Arms at 90°, lean into doorframe"
+  }, {
+    name: "Cross-Body Shoulder",
+    duration: "2×30sea",
+    note: "Pull arm across chest, feel rear delt"
+  }, {
+    name: "Thread the Needle",
+    duration: "2×30sea",
+    note: "On all fours, reach arm under body and rotate"
+  }, {
+    name: "Lat Hang Stretch",
+    duration: "2×30s",
+    note: "Hang from bar or door, shift side to side"
+  }, {
+    name: "Chest-Up Thoracic",
+    duration: "2×10",
+    note: "Hands behind head, open chest to ceiling"
+  }, {
+    name: "Overhead Tricep Stretch",
+    duration: "2×30sea",
+    note: "Elbow up, hand drops behind head"
+  }]
+}, {
+  day: "TUE",
+  label: "Lower Body",
+  focus: "Quads · Hamstrings · Glutes",
+  color: "#22c55e",
+  duration: "20-25 min",
+  exZone: "lower",
+  exercises: [{
+    name: "KB Goblet Squat",
+    sets: "4×12",
+    time: "7 min",
+    note: "Elbows touch knees at bottom, chest tall"
+  }, {
+    name: "DB Romanian Deadlift",
+    sets: "3×12",
+    time: "6 min",
+    note: "Hinge hips, soft knee, feel the stretch"
+  }, {
+    name: "Reverse Lunges",
+    sets: "3×10ea",
+    time: "6 min",
+    note: "Step back, knee hovers above floor"
+  }, {
+    name: "KB Swing",
+    sets: "4×15",
+    time: "7 min",
+    note: "Hip snap — not a squat, not an arm raise"
+  }, {
+    name: "DB Split Squat",
+    sets: "3×10ea",
+    time: "7 min",
+    note: "Front foot flat, rear heel up"
+  }, {
+    name: "Step-Ups",
+    sets: "3×12ea",
+    time: "6 min",
+    note: "Drive through heel, full extension at top"
+  }, {
+    name: "DB Sumo Deadlift",
+    sets: "3×12",
+    time: "6 min",
+    note: "Wide stance, toes out, hips drive forward"
+  }, {
+    name: "Glute Bridge",
+    sets: "3×15",
+    time: "5 min",
+    note: "Pause 2s at top, really squeeze glutes"
+  }, {
+    name: "Walking Lunge",
+    sets: "3×10ea",
+    time: "6 min",
+    note: "Long stride, chest tall throughout"
+  }],
+  stretches: [{
+    name: "Hip Flexor Lunge Stretch",
+    duration: "2×45sea",
+    note: "Back knee on floor, push hips forward"
+  }, {
+    name: "Standing Hamstring",
+    duration: "2×40sea",
+    note: "Leg on chair, hinge forward with flat back"
+  }, {
+    name: "Pigeon Pose",
+    duration: "2×45sea",
+    note: "Deep hip opener — breathe through it"
+  }, {
+    name: "Figure-4 Glute Stretch",
+    duration: "2×40sea",
+    note: "On back, ankle on knee, pull toward chest"
+  }, {
+    name: "Couch Stretch",
+    duration: "2×45sea",
+    note: "Rear foot on wall, drive hip to floor"
+  }, {
+    name: "Adductor Stretch",
+    duration: "2×40sea",
+    note: "Wide squat, elbows push knees out"
+  }]
+}, {
+  day: "WED",
+  label: "Core & Full Body",
+  focus: "Core · Stability · Power",
+  color: "#facc15",
+  duration: "20-25 min",
+  exZone: "core",
+  exercises: [{
+    name: "KB Swing",
+    sets: "3×15",
+    time: "6 min",
+    note: "Full hip extension, core braced throughout"
+  }, {
+    name: "Plank",
+    sets: "3×45s",
+    time: "5 min",
+    note: "Straight line head to heel, breathe steady"
+  }, {
+    name: "Dead Bug",
+    sets: "3×10",
+    time: "5 min",
+    note: "Opposite arm/leg, lower back stays flat"
+  }, {
+    name: "KB Thruster",
+    sets: "3×8",
+    time: "7 min",
+    note: "Squat to overhead press in one motion"
+  }, {
+    name: "Mountain Climbers",
+    sets: "3×20",
+    time: "5 min",
+    note: "Controlled — hips stay level"
+  }, {
+    name: "Russian Twist",
+    sets: "3×20",
+    time: "5 min",
+    note: "Hold KB, rotate side to side"
+  }, {
+    name: "Hollow Body Hold",
+    sets: "3×30s",
+    time: "5 min",
+    note: "Lower back pressed into floor, arms long"
+  }, {
+    name: "KB Figure 8",
+    sets: "3×10ea",
+    time: "6 min",
+    note: "Figure 8 between legs — grip + core"
+  }, {
+    name: "Burpees",
+    sets: "3×8",
+    time: "6 min",
+    note: "Full range, step instead of jump if needed"
+  }],
+  stretches: [{
+    name: "Cat-Cow",
+    duration: "2×10",
+    note: "Breathe in on cow, breathe out on cat"
+  }, {
+    name: "Child's Pose",
+    duration: "2×40s",
+    note: "Arms long, sink hips back toward heels"
+  }, {
+    name: "Lying Spinal Twist",
+    duration: "2×40sea",
+    note: "On back, knee crosses over, arms wide"
+  }, {
+    name: "Thoracic Rotation",
+    duration: "2×10ea",
+    note: "On all fours, thread arm under and rotate"
+  }, {
+    name: "Hip 90/90",
+    duration: "2×45sea",
+    note: "Both hips at 90°, alternate leaning forward"
+  }, {
+    name: "Seated Forward Fold",
+    duration: "2×40s",
+    note: "Legs straight, reach for feet, flat back first"
+  }]
+}, {
+  day: "THU",
+  label: "Upper Body",
+  focus: "Back · Arms · Shoulders",
+  color: "#a78bfa",
+  duration: "20-25 min",
+  exZone: "upper",
+  exercises: [{
+    name: "DB Curl",
+    sets: "3×12",
+    time: "5 min",
+    note: "Supinate wrist at top, slow on the way down"
+  }, {
+    name: "KB Single-Arm Row",
+    sets: "3×10ea",
+    time: "7 min",
+    note: "Heavy KB, brace core, don't twist"
+  }, {
+    name: "Dips (chair)",
+    sets: "3×max",
+    time: "5 min",
+    note: "Elbows straight back, full range"
+  }, {
+    name: "DB Bent-Over Row",
+    sets: "3×12",
+    time: "6 min",
+    note: "Both arms, controlled pull, squeeze at top"
+  }, {
+    name: "Hammer Curl",
+    sets: "3×12",
+    time: "5 min",
+    note: "Palms face each other throughout"
+  }, {
+    name: "Push-Up Variations",
+    sets: "3×max",
+    time: "6 min",
+    note: "Archer, decline, or close-grip"
+  }, {
+    name: "KB Windmill",
+    sets: "3×6ea",
+    time: "7 min",
+    note: "Slow and controlled — go light at first"
+  }, {
+    name: "DB Lateral Raise",
+    sets: "3×15",
+    time: "5 min",
+    note: "Slight elbow bend, raise to shoulder height"
+  }, {
+    name: "Inverted Row",
+    sets: "3×max",
+    time: "6 min",
+    note: "Use sturdy table edge, body straight"
+  }],
+  stretches: [{
+    name: "Cross-Body Shoulder",
+    duration: "2×30sea",
+    note: "Pull arm across chest, hold at rear delt"
+  }, {
+    name: "Overhead Tricep Stretch",
+    duration: "2×30sea",
+    note: "Elbow up, hand drops behind head"
+  }, {
+    name: "Doorway Chest Stretch",
+    duration: "2×40s",
+    note: "Arms at 90°, lean gently forward"
+  }, {
+    name: "Neck Side Stretch",
+    duration: "2×30sea",
+    note: "Ear to shoulder, gentle weight from hand"
+  }, {
+    name: "Wrist Flexor Stretch",
+    duration: "2×30sea",
+    note: "Arm forward palm up, bend wrist down"
+  }, {
+    name: "Thread the Needle",
+    duration: "2×30sea",
+    note: "Reach arm under, rotate thoracic spine"
+  }]
+}, {
+  day: "FRI",
+  label: "Lower Body",
+  focus: "Hamstrings · Glutes · Calves",
+  color: "#fb923c",
+  duration: "20-25 min",
+  exZone: "lower",
+  exercises: [{
+    name: "Single-Leg RDL",
+    sets: "3×8ea",
+    time: "7 min",
+    note: "Slow and controlled — wall for balance"
+  }, {
+    name: "KB Swing",
+    sets: "4×12",
+    time: "6 min",
+    note: "Explosive hip drive, soft landing"
+  }, {
+    name: "Lateral Lunges",
+    sets: "3×10ea",
+    time: "6 min",
+    note: "Wide step, sit into hip, other leg straight"
+  }, {
+    name: "Glute Bridge",
+    sets: "3×15",
+    time: "5 min",
+    note: "Feet flat, drive hips up, 2s squeeze"
+  }, {
+    name: "Calf Raises",
+    sets: "3×20",
+    time: "5 min",
+    note: "Slow eccentric — 3 seconds down"
+  }, {
+    name: "DB Romanian Deadlift",
+    sets: "3×10",
+    time: "6 min",
+    note: "Max stretch at the bottom, hips back"
+  }, {
+    name: "Hip Thrust (DB)",
+    sets: "3×12",
+    time: "6 min",
+    note: "Upper back on couch, DB on hips"
+  }, {
+    name: "Nordic Hamstring Curl",
+    sets: "3×5",
+    time: "7 min",
+    note: "Anchor feet, lower as slowly as possible"
+  }, {
+    name: "Plyometric Lunge",
+    sets: "3×8ea",
+    time: "6 min",
+    note: "Jump to switch — land soft, absorb impact"
+  }],
+  stretches: [{
+    name: "Standing Hamstring",
+    duration: "2×45sea",
+    note: "Heel on chair, hinge forward, flat back"
+  }, {
+    name: "Couch Stretch",
+    duration: "2×45sea",
+    note: "Rear foot on wall, sink hip to floor"
+  }, {
+    name: "Calf Stretch (wall)",
+    duration: "2×40sea",
+    note: "Heel down, push wall, straight leg"
+  }, {
+    name: "Figure-4 Glute Stretch",
+    duration: "2×40sea",
+    note: "On back, ankle over knee, pull to chest"
+  }, {
+    name: "Adductor Stretch",
+    duration: "2×40sea",
+    note: "Wide squat position, elbows push knees"
+  }, {
+    name: "Pigeon Pose",
+    duration: "2×45sea",
+    note: "Sink into hip, breathe through tension"
+  }]
+}, {
+  day: "SAT",
+  label: "Full Body",
+  focus: "Power · Conditioning · Endurance",
+  color: "#e879f9",
+  duration: "25-30 min",
+  exZone: "full",
+  exercises: [{
+    name: "KB Clean & Press",
+    sets: "4×6ea",
+    time: "8 min",
+    note: "Hip drive cleans it, press to finish"
+  }, {
+    name: "DB Farmer Carry",
+    sets: "3×40m",
+    time: "6 min",
+    note: "Heavy DBs, tall posture, tight core"
+  }, {
+    name: "KB Complex",
+    sets: "3×6",
+    time: "8 min",
+    note: "Swing → Clean → Press back to back"
+  }, {
+    name: "Rowing Machine",
+    sets: "1×8min",
+    time: "8 min",
+    note: "Steady effort, consistent split times"
+  }, {
+    name: "Burpee to Row",
+    sets: "3×8",
+    time: "7 min",
+    note: "Burpee then immediately row 250m hard"
+  }, {
+    name: "KB Turkish Get-Up",
+    sets: "3×3ea",
+    time: "8 min",
+    note: "Slow and deliberate — watch tutorial first"
+  }, {
+    name: "DB Thruster",
+    sets: "3×10",
+    time: "7 min",
+    note: "Squat deep, press at full extension"
+  }, {
+    name: "Rowing Intervals",
+    sets: "4×250m",
+    time: "8 min",
+    note: "Hard effort, 60s rest between each"
+  }, {
+    name: "Man Maker",
+    sets: "3×6",
+    time: "8 min",
+    note: "Push-up, row each arm, squat, press"
+  }],
+  stretches: [{
+    name: "World's Greatest Stretch",
+    duration: "2×5ea",
+    note: "Lunge, rotate, reach — covers everything"
+  }, {
+    name: "Hip 90/90",
+    duration: "2×45sea",
+    note: "Full hip rotation, both directions"
+  }, {
+    name: "Child's Pose",
+    duration: "2×45s",
+    note: "Arms wide, sink hips, breathe deeply"
+  }, {
+    name: "Thoracic Rotation",
+    duration: "2×10ea",
+    note: "On all fours, open chest to ceiling"
+  }, {
+    name: "Full Body Stretch Flow",
+    duration: "5 min",
+    note: "Neck → shoulders → chest → hips → calves"
+  }, {
+    name: "Lying Spinal Twist",
+    duration: "2×40sea",
+    note: "Decompress the spine after heavy lifting"
+  }]
+}, {
+  day: "SUN",
+  label: "Active Recovery",
+  focus: "Mobility · Breath · Reset",
+  color: "#38bdf8",
+  duration: "15-20 min",
+  exZone: "recovery",
+  exercises: [{
+    name: "Rowing Machine",
+    sets: "1×10min",
+    time: "10 min",
+    note: "Very easy pace — heart rate under 120"
+  }, {
+    name: "KB Halos",
+    sets: "3×10ea",
+    time: "5 min",
+    note: "Slow circles — shoulder warm-down"
+  }, {
+    name: "Dead Bug",
+    sets: "3×8",
+    time: "5 min",
+    note: "Activates deep core, easy on the joints"
+  }, {
+    name: "Cat-Cow Flow",
+    sets: "3×10",
+    time: "4 min",
+    note: "Breathe with movement, no rushing"
+  }, {
+    name: "Bodyweight Squat Flow",
+    sets: "3×10",
+    time: "5 min",
+    note: "Slow, deep squats — feel every inch"
+  }, {
+    name: "Easy Row",
+    sets: "1×15min",
+    time: "15 min",
+    note: "Zone 1 only — full recovery effort"
+  }],
+  stretches: [{
+    name: "Full Body Stretch Flow",
+    duration: "5 min",
+    note: "Head to toe — take your time on each"
+  }, {
+    name: "Hip Flexor Lunge Stretch",
+    duration: "2×60sea",
+    note: "Hold longer today — no rush"
+  }, {
+    name: "Seated Forward Fold",
+    duration: "2×60s",
+    note: "Breathe into the hamstrings, don't force it"
+  }, {
+    name: "Lying Spinal Twist",
+    duration: "2×60sea",
+    note: "Both sides, full thoracic release"
+  }, {
+    name: "Child's Pose",
+    duration: "2×60s",
+    note: "Recovery day — stay here as long as needed"
+  }, {
+    name: "Pigeon Pose",
+    duration: "2×60sea",
+    note: "Deep hip opening to close out the week"
+  }]
+}];
+
+// ─── METRICS ─────────────────────────────────────────────────────────────────
+var METRICS = [{
+  key: "weight",
+  label: "Body Weight",
+  unit: "lbs",
+  color: "#4ade80",
+  goal: 210,
+  goalLabel: "Goal: 210 lbs",
+  lower: true
+}, {
+  key: "mileTime",
+  label: "1-Mile Time",
+  unit: "min",
+  color: "#f97316",
+  goal: 10,
+  goalLabel: "Goal: 10 min",
+  lower: true
+}, {
+  key: "distance",
+  label: "Longest Run",
+  unit: "mi",
+  color: "#22c55e",
+  goal: 3.5,
+  goalLabel: "Goal: 3.5 mi",
+  lower: false
+}, {
+  key: "pushups",
+  label: "Push-Ups (set)",
+  unit: "reps",
+  color: "#e879f9",
+  goal: 30,
+  goalLabel: "Goal: 30 reps",
+  lower: false
+}, {
+  key: "rowTime",
+  label: "2000m Row",
+  unit: "min",
+  color: "#facc15",
+  goal: 8,
+  goalLabel: "Goal: 8 min",
+  lower: true
+}];
+
+// ─── STORAGE + SYNC ──────────────────────────────────────────────────────────
+function ls(k, d) {
+  try {
+    var v = localStorage.getItem(k);
+    return v ? JSON.parse(v) : d;
+  } catch (_unused) {
+    return d;
+  }
+}
+function lsSet(k, v) {
+  try {
+    localStorage.setItem(k, JSON.stringify(v));
+  } catch (_unused2) {}
+}
+var SHEETS_URL_KEY = "sheets-script-url";
+function getSheetsUrl() {
+  return ls(SHEETS_URL_KEY, "");
+}
+function syncToSheets(_x, _x2) {
+  return _syncToSheets.apply(this, arguments);
+} // ─── SYNC BANNER ─────────────────────────────────────────────────────────────
+function _syncToSheets() {
+  _syncToSheets = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(type, payload) {
+    var url, _t;
+    return _regenerator().w(function (_context3) {
+      while (1) switch (_context3.p = _context3.n) {
+        case 0:
+          url = getSheetsUrl();
+          if (url) {
+            _context3.n = 1;
+            break;
+          }
+          return _context3.a(2, {
+            ok: false,
+            reason: "no-url"
+          });
+        case 1:
+          _context3.p = 1;
+          _context3.n = 2;
+          return fetch(url, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              type: type,
+              payload: payload,
+              timestamp: new Date().toISOString()
+            })
+          });
+        case 2:
+          return _context3.a(2, {
+            ok: true
+          });
+        case 3:
+          _context3.p = 3;
+          _t = _context3.v;
+          return _context3.a(2, {
+            ok: false,
+            reason: _t.message
+          });
+      }
+    }, _callee3, null, [[1, 3]]);
+  }));
+  return _syncToSheets.apply(this, arguments);
+}
+function SyncBanner(_ref2) {
+  var status = _ref2.status;
+  if (!status) return null;
+  var cfg = {
+    syncing: {
+      bg: "rgba(250,204,21,0.1)",
+      border: "rgba(250,204,21,0.3)",
+      color: "#facc15",
+      text: "⟳ Syncing..."
+    },
+    success: {
+      bg: "rgba(34,197,94,0.1)",
+      border: "rgba(34,197,94,0.3)",
+      color: "#4ade80",
+      text: "✓ Synced"
+    },
+    error: {
+      bg: "rgba(239,68,68,0.1)",
+      border: "rgba(239,68,68,0.3)",
+      color: "#f87171",
+      text: "⚠ Saved locally"
+    },
+    nourl: {
+      bg: "rgba(148,163,184,0.08)",
+      border: "rgba(148,163,184,0.2)",
+      color: "#94a3b8",
+      text: "💾 Saved locally"
+    }
+  }[status];
+  if (!cfg) return null;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "7px 12px",
+      background: cfg.bg,
+      border: "1px solid ".concat(cfg.border),
+      borderRadius: "6px",
+      fontSize: "11px",
+      color: cfg.color,
+      marginBottom: "10px"
+    }
+  }, cfg.text);
+}
+
+// ─── SHEETS SETTINGS ─────────────────────────────────────────────────────────
+function SheetsSettings(_ref3) {
+  var onClose = _ref3.onClose;
+  var _useState = useState(function () {
+      return getSheetsUrl();
+    }),
+    _useState2 = _slicedToArray(_useState, 2),
+    url = _useState2[0],
+    setUrl = _useState2[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    saved = _useState4[0],
+    setSaved = _useState4[1];
+  function save() {
+    lsSet(SHEETS_URL_KEY, url.trim());
+    setSaved(true);
+    setTimeout(function () {
+      setSaved(false);
+      onClose();
+    }, 1000);
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.8)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 200,
+      padding: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#13131f",
+      border: "1px solid rgba(255,255,255,0.12)",
+      borderRadius: "14px",
+      padding: "22px",
+      width: "100%",
+      maxWidth: "440px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "15px",
+      fontWeight: "bold",
+      color: "#f1f5f9",
+      marginBottom: "6px"
+    }
+  }, "Google Sheets Sync"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "11px",
+      color: "#64748b",
+      marginBottom: "16px",
+      lineHeight: "1.6"
+    }
+  }, "Auto-backup all progress logs to Google Sheets."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "rgba(250,204,21,0.07)",
+      border: "1px solid rgba(250,204,21,0.2)",
+      borderRadius: "8px",
+      padding: "12px",
+      marginBottom: "16px",
+      fontSize: "11px",
+      color: "#94a3b8",
+      lineHeight: "1.7"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "#facc15",
+      fontWeight: "bold",
+      marginBottom: "6px"
+    }
+  }, "Setup:"), /*#__PURE__*/React.createElement("div", null, "1. Go to ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "#60a5fa"
+    }
+  }, "script.google.com"), " \u2192 New project"), /*#__PURE__*/React.createElement("div", null, "2. Paste the Apps Script code \u2192 Deploy as Web App"), /*#__PURE__*/React.createElement("div", null, "3. Set Execute as: Me \xB7 Who has access: Anyone"), /*#__PURE__*/React.createElement("div", null, "4. Paste the deployment URL below")), /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: "10px",
+      color: "#64748b",
+      letterSpacing: "1px",
+      display: "block",
+      marginBottom: "6px"
+    }
+  }, "DEPLOYMENT URL"), /*#__PURE__*/React.createElement("input", {
+    type: "url",
+    value: url,
+    onChange: function onChange(e) {
+      return setUrl(e.target.value);
+    },
+    placeholder: "https://script.google.com/macros/s/...",
+    style: {
+      width: "100%",
+      background: "rgba(0,0,0,0.4)",
+      border: "1px solid rgba(255,255,255,0.15)",
+      borderRadius: "6px",
+      padding: "10px 12px",
+      color: "#e2e8f0",
+      fontSize: "12px",
+      fontFamily: "'Courier New',monospace",
+      boxSizing: "border-box",
+      marginBottom: "14px"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: "8px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      flex: 1,
+      padding: "10px",
+      background: "rgba(255,255,255,0.05)",
+      border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: "8px",
+      color: "#64748b",
+      fontSize: "13px",
+      cursor: "pointer",
+      fontFamily: "'Courier New',monospace"
+    }
+  }, "Cancel"), /*#__PURE__*/React.createElement("button", {
+    onClick: save,
+    style: {
+      flex: 2,
+      padding: "10px",
+      background: saved ? "rgba(34,197,94,0.3)" : "rgba(34,197,94,0.2)",
+      border: "1px solid rgba(34,197,94,0.4)",
+      borderRadius: "8px",
+      color: "#4ade80",
+      fontSize: "13px",
+      fontWeight: "bold",
+      cursor: "pointer",
+      fontFamily: "'Courier New',monospace"
+    }
+  }, saved ? "✓ Saved!" : "Save URL"))));
+}
+
+// ─── SWAP MODAL (handles both exercises and stretches) ────────────────────────
+function SwapModal(_ref4) {
+  var item = _ref4.item,
+    kind = _ref4.kind,
+    onApply = _ref4.onApply,
+    onClose = _ref4.onClose;
+  var isEx = kind === "exercise";
+  var alts = isEx ? getExAlts(item.name) : getStAlts(item.name);
+  var zone = isEx ? EX_ZONES[item.name] || "full" : ST_ZONES[item.name] || "full";
+  var zm = ZONE_META[zone] || {
+    label: "General",
+    color: "#94a3b8"
+  };
+  var _useState5 = useState("library"),
+    _useState6 = _slicedToArray(_useState5, 2),
+    mode = _useState6[0],
+    setMode = _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray(_useState7, 2),
+    selected = _useState8[0],
+    setSelected = _useState8[1];
+  var _useState9 = useState({
+      name: "",
+      sets: item.sets || item.duration || "",
+      note: ""
+    }),
+    _useState0 = _slicedToArray(_useState9, 2),
+    custom = _useState0[0],
+    setCustom = _useState0[1];
+  function confirm() {
+    if (!selected) return;
+    onApply(selected);
+  }
+  function applyCustom() {
+    if (!custom.name.trim()) return;
+    onApply(_defineProperty(_defineProperty({
+      name: custom.name.trim()
+    }, isEx ? "sets" : "duration", custom.sets.trim()), "note", custom.note.trim()));
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.82)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 100,
+      padding: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#13131f",
+      border: "1px solid rgba(255,255,255,0.12)",
+      borderRadius: "14px",
+      width: "100%",
+      maxWidth: "440px",
+      maxHeight: "88vh",
+      display: "flex",
+      flexDirection: "column",
+      overflow: "hidden"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "16px 18px 12px",
+      borderBottom: "1px solid rgba(255,255,255,0.07)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: "10px"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "13px",
+      fontWeight: "bold",
+      color: "#f1f5f9",
+      marginBottom: "2px"
+    }
+  }, "Swap ", isEx ? "Exercise" : "Stretch"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "11px",
+      color: "#475569"
+    }
+  }, "Replacing: ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "#94a3b8"
+    }
+  }, item.name))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: "5px",
+      background: "".concat(zm.color, "18"),
+      border: "1px solid ".concat(zm.color, "35"),
+      borderRadius: "20px",
+      padding: "3px 9px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "6px",
+      height: "6px",
+      borderRadius: "50%",
+      background: zm.color
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: "10px",
+      color: zm.color,
+      fontWeight: "bold"
+    }
+  }, zm.label))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: "6px"
+    }
+  }, ["library", "custom"].map(function (m) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: m,
+      onClick: function onClick() {
+        setMode(m);
+        setSelected(null);
+      },
+      style: {
+        flex: 1,
+        padding: "7px",
+        background: mode === m ? "rgba(255,255,255,0.09)" : "rgba(255,255,255,0.03)",
+        border: "1px solid ".concat(mode === m ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.06)"),
+        borderRadius: "6px",
+        color: mode === m ? "#f1f5f9" : "#64748b",
+        fontSize: "11px",
+        fontWeight: mode === m ? "bold" : "normal",
+        cursor: "pointer",
+        fontFamily: "'Courier New',monospace"
+      }
+    }, m === "library" ? "From Library" : "Custom");
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      overflowY: "auto",
+      padding: "12px 18px"
+    }
+  }, mode === "library" ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "10px",
+      color: "#475569",
+      letterSpacing: "1px",
+      marginBottom: "10px"
+    }
+  }, alts.length, " alternatives \xB7 ", zm.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "6px"
+    }
+  }, alts.map(function (alt, i) {
+    var isSel = selected && selected.name === alt.name;
+    var vid = videoLinks[alt.name];
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: function onClick() {
+        return setSelected(alt);
+      },
+      style: {
+        background: isSel ? "".concat(zm.color, "18") : "rgba(255,255,255,0.03)",
+        border: "1px solid ".concat(isSel ? zm.color + "55" : "rgba(255,255,255,0.07)"),
+        borderRadius: "8px",
+        padding: "10px 12px",
+        cursor: "pointer",
+        textAlign: "left",
+        transition: "all 0.15s"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        gap: "8px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "13px",
+        fontWeight: "bold",
+        color: isSel ? zm.color : "#e2e8f0",
+        marginBottom: "3px"
+      }
+    }, alt.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "11px",
+        color: "#64748b",
+        lineHeight: "1.4"
+      }
+    }, alt.note)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        gap: "5px",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "11px",
+        color: zm.color,
+        fontWeight: "bold",
+        whiteSpace: "nowrap"
+      }
+    }, alt.sets || alt.duration), vid && /*#__PURE__*/React.createElement("a", {
+      href: vid,
+      target: "_blank",
+      rel: "noopener noreferrer",
+      onClick: function onClick(e) {
+        return e.stopPropagation();
+      },
+      style: {
+        background: "rgba(220,30,30,0.15)",
+        border: "1px solid rgba(255,80,80,0.3)",
+        borderRadius: "4px",
+        padding: "2px 6px",
+        fontSize: "9px",
+        color: "#ff7070",
+        fontWeight: "bold",
+        textDecoration: "none",
+        whiteSpace: "nowrap"
+      }
+    }, "\u25B6 Tutorial"), isSel && /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "14px",
+        height: "14px",
+        borderRadius: "50%",
+        background: zm.color,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "8px",
+        color: "#000",
+        fontWeight: "bold"
+      }
+    }, "\u2713")))));
+  }), alts.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      padding: "30px",
+      color: "#334155",
+      fontSize: "12px"
+    }
+  }, "No alternatives in library for this zone"))) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "10px",
+      color: "#64748b",
+      marginBottom: "4px"
+    }
+  }, "Enter any ", isEx ? "exercise" : "stretch", " you want instead"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: "10px",
+      color: "#64748b",
+      display: "block",
+      marginBottom: "4px"
+    }
+  }, "NAME *"), /*#__PURE__*/React.createElement("input", {
+    autoFocus: true,
+    type: "text",
+    value: custom.name,
+    onChange: function onChange(e) {
+      return setCustom(function (c) {
+        return _objectSpread(_objectSpread({}, c), {}, {
+          name: e.target.value
+        });
+      });
+    },
+    placeholder: isEx ? "e.g. Pull-Ups" : "e.g. Butterfly Stretch",
+    style: {
+      width: "100%",
+      background: "rgba(0,0,0,0.4)",
+      border: "1px solid rgba(255,255,255,0.15)",
+      borderRadius: "6px",
+      padding: "9px 11px",
+      color: "#e2e8f0",
+      fontSize: "13px",
+      fontFamily: "'Courier New',monospace",
+      boxSizing: "border-box"
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: "10px",
+      color: "#64748b",
+      display: "block",
+      marginBottom: "4px"
+    }
+  }, isEx ? "SETS / REPS" : "DURATION"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: custom.sets,
+    onChange: function onChange(e) {
+      return setCustom(function (c) {
+        return _objectSpread(_objectSpread({}, c), {}, {
+          sets: e.target.value
+        });
+      });
+    },
+    placeholder: isEx ? "e.g. 3×12" : "e.g. 2×40s each",
+    style: {
+      width: "100%",
+      background: "rgba(0,0,0,0.4)",
+      border: "1px solid rgba(255,255,255,0.15)",
+      borderRadius: "6px",
+      padding: "9px 11px",
+      color: "#e2e8f0",
+      fontSize: "13px",
+      fontFamily: "'Courier New',monospace",
+      boxSizing: "border-box"
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: "10px",
+      color: "#64748b",
+      display: "block",
+      marginBottom: "4px"
+    }
+  }, "NOTE (optional)"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: custom.note,
+    onChange: function onChange(e) {
+      return setCustom(function (c) {
+        return _objectSpread(_objectSpread({}, c), {}, {
+          note: e.target.value
+        });
+      });
+    },
+    placeholder: "Form tip or reason",
+    style: {
+      width: "100%",
+      background: "rgba(0,0,0,0.4)",
+      border: "1px solid rgba(255,255,255,0.15)",
+      borderRadius: "6px",
+      padding: "9px 11px",
+      color: "#e2e8f0",
+      fontSize: "13px",
+      fontFamily: "'Courier New',monospace",
+      boxSizing: "border-box"
+    }
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "12px 18px",
+      borderTop: "1px solid rgba(255,255,255,0.07)",
+      display: "flex",
+      gap: "8px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      flex: 1,
+      padding: "10px",
+      background: "rgba(255,255,255,0.05)",
+      border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: "8px",
+      color: "#64748b",
+      fontSize: "13px",
+      cursor: "pointer",
+      fontFamily: "'Courier New',monospace"
+    }
+  }, "Cancel"), mode === "library" ? /*#__PURE__*/React.createElement("button", {
+    onClick: confirm,
+    disabled: !selected,
+    style: {
+      flex: 2,
+      padding: "10px",
+      background: selected ? "rgba(34,197,94,0.2)" : "rgba(255,255,255,0.04)",
+      border: "1px solid ".concat(selected ? "rgba(34,197,94,0.4)" : "rgba(255,255,255,0.06)"),
+      borderRadius: "8px",
+      color: selected ? "#4ade80" : "#475569",
+      fontSize: "13px",
+      fontWeight: "bold",
+      cursor: selected ? "pointer" : "default",
+      fontFamily: "'Courier New',monospace"
+    }
+  }, selected ? "Use ".concat(selected.name) : "Select one above") : /*#__PURE__*/React.createElement("button", {
+    onClick: applyCustom,
+    style: {
+      flex: 2,
+      padding: "10px",
+      background: "rgba(34,197,94,0.2)",
+      border: "1px solid rgba(34,197,94,0.4)",
+      borderRadius: "8px",
+      color: "#4ade80",
+      fontSize: "13px",
+      fontWeight: "bold",
+      cursor: "pointer",
+      fontFamily: "'Courier New',monospace"
+    }
+  }, "Apply Custom"))));
+}
+
+// ─── PROGRESS TRACKER ────────────────────────────────────────────────────────
+function ProgressTracker(_ref5) {
+  var onOpenSettings = _ref5.onOpenSettings;
+  var _useState1 = useState(function () {
+      return ls("fitness-entries", []);
+    }),
+    _useState10 = _slicedToArray(_useState1, 2),
+    entries = _useState10[0],
+    setEntries = _useState10[1];
+  var _useState11 = useState("weight"),
+    _useState12 = _slicedToArray(_useState11, 2),
+    activeMetric = _useState12[0],
+    setActiveMetric = _useState12[1];
+  var _useState13 = useState({
+      date: todayStr(),
+      weight: "",
+      mileTime: "",
+      distance: "",
+      pushups: "",
+      rowTime: "",
+      notes: ""
+    }),
+    _useState14 = _slicedToArray(_useState13, 2),
+    form = _useState14[0],
+    setForm = _useState14[1];
+  var _useState15 = useState(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    showForm = _useState16[0],
+    setShowForm = _useState16[1];
+  var _useState17 = useState(null),
+    _useState18 = _slicedToArray(_useState17, 2),
+    deleteId = _useState18[0],
+    setDeleteId = _useState18[1];
+  var _useState19 = useState(null),
+    _useState20 = _slicedToArray(_useState19, 2),
+    syncStatus = _useState20[0],
+    setSyncStatus = _useState20[1];
+  var metric = METRICS.find(function (m) {
+    return m.key === activeMetric;
+  });
+  var chartData = _toConsumableArray(entries).filter(function (e) {
+    return e[activeMetric] !== "" && e[activeMetric] != null;
+  }).sort(function (a, b) {
+    return new Date(a.date) - new Date(b.date);
+  }).map(function (e) {
+    return {
+      date: new Date(e.date + "T12:00:00").toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric"
+      }),
+      value: parseFloat(e[activeMetric])
+    };
+  });
+  var latest = chartData[chartData.length - 1],
+    first = chartData[0];
+  var delta = latest && first && chartData.length > 1 ? (latest.value - first.value).toFixed(1) : null;
+  var pct = function pct() {
+    if (!latest || !first || chartData.length < 2) return 0;
+    var r = metric.goal - first.value,
+      p = latest.value - first.value;
+    if (r === 0) return 100;
+    return Math.min(100, Math.max(0, Math.round(p / r * 100)));
+  };
+  function handleAdd() {
+    return _handleAdd.apply(this, arguments);
+  }
+  function _handleAdd() {
+    _handleAdd = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+      var entry, u, r;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.n) {
+          case 0:
+            if (METRICS.some(function (m) {
+              return form[m.key] !== "";
+            })) {
+              _context.n = 1;
+              break;
+            }
+            return _context.a(2);
+          case 1:
+            entry = _objectSpread({
+              id: Date.now()
+            }, form);
+            u = [].concat(_toConsumableArray(entries), [entry]);
+            setEntries(u);
+            lsSet("fitness-entries", u);
+            setForm(function (f) {
+              return _objectSpread(_objectSpread({}, f), {}, {
+                weight: "",
+                mileTime: "",
+                distance: "",
+                pushups: "",
+                rowTime: "",
+                notes: ""
+              });
+            });
+            setShowForm(false);
+            setSyncStatus("syncing");
+            _context.n = 2;
+            return syncToSheets("progress_entry", entry);
+          case 2:
+            r = _context.v;
+            setSyncStatus(r.ok ? "success" : r.reason === "no-url" ? "nourl" : "error");
+            setTimeout(function () {
+              return setSyncStatus(null);
+            }, 3000);
+          case 3:
+            return _context.a(2);
+        }
+      }, _callee);
+    }));
+    return _handleAdd.apply(this, arguments);
+  }
+  function handleDelete(id) {
+    var u = entries.filter(function (e) {
+      return e.id !== id;
+    });
+    setEntries(u);
+    lsSet("fitness-entries", u);
+    setDeleteId(null);
+  }
+  var sorted = _toConsumableArray(entries).sort(function (a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit,minmax(120px,1fr))",
+      gap: "8px",
+      marginBottom: "16px"
+    }
+  }, METRICS.map(function (m) {
+    var vals = entries.filter(function (e) {
+      return e[m.key] !== "" && e[m.key] != null;
+    }).sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
+    var cur = vals[0] ? parseFloat(vals[0][m.key]) : null,
+      prev = vals[1] ? parseFloat(vals[1][m.key]) : null,
+      diff = cur != null && prev != null ? (cur - prev).toFixed(1) : null,
+      good = diff != null && (m.lower ? parseFloat(diff) < 0 : parseFloat(diff) > 0),
+      bad = diff != null && (m.lower ? parseFloat(diff) > 0 : parseFloat(diff) < 0);
+    return /*#__PURE__*/React.createElement("button", {
+      key: m.key,
+      onClick: function onClick() {
+        return setActiveMetric(m.key);
+      },
+      style: {
+        background: activeMetric === m.key ? m.color + "18" : "rgba(255,255,255,0.03)",
+        border: "1px solid ".concat(activeMetric === m.key ? m.color + "60" : "rgba(255,255,255,0.07)"),
+        borderRadius: "10px",
+        padding: "12px 10px",
+        cursor: "pointer",
+        textAlign: "left",
+        transition: "all 0.2s"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "10px",
+        color: "#64748b",
+        letterSpacing: "1px",
+        marginBottom: "2px"
+      }
+    }, m.label.toUpperCase()), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "18px",
+        fontWeight: "900",
+        color: cur != null ? m.color : "#334155",
+        fontFamily: "'Georgia',serif"
+      }
+    }, cur != null ? cur : "—", /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "11px",
+        fontWeight: "normal",
+        color: "#475569",
+        marginLeft: "2px"
+      }
+    }, cur != null ? m.unit : "")), diff != null && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "11px",
+        color: good ? "#4ade80" : bad ? "#f87171" : "#94a3b8",
+        marginTop: "2px"
+      }
+    }, parseFloat(diff) > 0 ? "+" : "", diff, " ", m.unit));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "".concat(metric.color, "0a"),
+      border: "1px solid ".concat(metric.color, "30"),
+      borderRadius: "12px",
+      padding: "18px",
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: "14px",
+      flexWrap: "wrap",
+      gap: "8px"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "10px",
+      letterSpacing: "2px",
+      color: metric.color,
+      marginBottom: "4px"
+    }
+  }, metric.label.toUpperCase()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "baseline",
+      gap: "8px"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: "28px",
+      fontWeight: "900",
+      color: "#f1f5f9",
+      fontFamily: "'Georgia',serif"
+    }
+  }, latest ? latest.value : "—"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: "13px",
+      color: "#64748b"
+    }
+  }, metric.unit), delta != null && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: "13px",
+      fontWeight: "bold",
+      color: (metric.lower ? parseFloat(delta) < 0 : parseFloat(delta) > 0) ? "#4ade80" : "#f87171"
+    }
+  }, parseFloat(delta) > 0 ? "▲" : "▼", " ", Math.abs(delta), " ", metric.unit, " total")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "11px",
+      color: "#475569",
+      marginTop: "2px"
+    }
+  }, metric.goalLabel)), chartData.length >= 2 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "right"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "10px",
+      color: "#475569",
+      marginBottom: "4px"
+    }
+  }, "TO GOAL"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "100px",
+      height: "6px",
+      background: "rgba(255,255,255,0.08)",
+      borderRadius: "3px",
+      overflow: "hidden"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "".concat(pct(), "%"),
+      height: "100%",
+      background: metric.color,
+      borderRadius: "3px",
+      transition: "width 0.5s"
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "11px",
+      color: metric.color,
+      marginTop: "4px"
+    }
+  }, pct(), "%"))), chartData.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      padding: "40px 20px",
+      color: "#334155"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "32px",
+      marginBottom: "8px"
+    }
+  }, "\uD83D\uDCCA"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "13px"
+    }
+  }, "No data yet")) : /*#__PURE__*/React.createElement(SVGLineChart, {
+    data: chartData,
+    color: metric.color,
+    goal: metric.goal,
+    unit: metric.unit
+  })), /*#__PURE__*/React.createElement(SyncBanner, {
+    status: syncStatus
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: "8px",
+      marginBottom: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowForm(function (f) {
+        return !f;
+      });
+    },
+    style: {
+      flex: 1,
+      padding: "13px",
+      background: showForm ? "rgba(255,255,255,0.06)" : "rgba(34,197,94,0.15)",
+      border: "1px solid ".concat(showForm ? "rgba(255,255,255,0.1)" : "rgba(34,197,94,0.4)"),
+      borderRadius: "10px",
+      color: showForm ? "#94a3b8" : "#4ade80",
+      fontSize: "13px",
+      fontWeight: "bold",
+      cursor: "pointer",
+      fontFamily: "'Courier New',monospace",
+      transition: "all 0.2s"
+    }
+  }, showForm ? "✕ CANCEL" : "+ LOG NEW ENTRY"), /*#__PURE__*/React.createElement("button", {
+    onClick: onOpenSettings,
+    style: {
+      padding: "13px 14px",
+      background: getSheetsUrl() ? "rgba(34,197,94,0.1)" : "rgba(255,255,255,0.04)",
+      border: "1px solid ".concat(getSheetsUrl() ? "rgba(34,197,94,0.3)" : "rgba(255,255,255,0.1)"),
+      borderRadius: "10px",
+      color: getSheetsUrl() ? "#4ade80" : "#64748b",
+      fontSize: "13px",
+      cursor: "pointer"
+    }
+  }, "\uD83D\uDCCA", getSheetsUrl() ? " ✓" : "")), showForm && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "rgba(255,255,255,0.03)",
+      border: "1px solid rgba(255,255,255,0.08)",
+      borderRadius: "12px",
+      padding: "18px",
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: "10px",
+      marginBottom: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      gridColumn: "1/-1"
+    }
+  }, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: "10px",
+      color: "#64748b",
+      display: "block",
+      marginBottom: "4px"
+    }
+  }, "DATE"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: form.date,
+    onChange: function onChange(e) {
+      return setForm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          date: e.target.value
+        });
+      });
+    },
+    style: {
+      width: "100%",
+      background: "rgba(0,0,0,0.3)",
+      border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: "6px",
+      padding: "8px 10px",
+      color: "#e2e8f0",
+      fontSize: "13px",
+      fontFamily: "'Courier New',monospace",
+      boxSizing: "border-box"
+    }
+  })), METRICS.map(function (m) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: m.key
+    }, /*#__PURE__*/React.createElement("label", {
+      style: {
+        fontSize: "10px",
+        color: "#64748b",
+        display: "block",
+        marginBottom: "4px"
+      }
+    }, m.label.toUpperCase(), " (", m.unit, ")"), /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      step: "0.01",
+      value: form[m.key],
+      onChange: function onChange(e) {
+        return setForm(function (f) {
+          return _objectSpread(_objectSpread({}, f), {}, _defineProperty({}, m.key, e.target.value));
+        });
+      },
+      style: {
+        width: "100%",
+        background: "rgba(0,0,0,0.3)",
+        border: "1px solid rgba(255,255,255,0.1)",
+        borderRadius: "6px",
+        padding: "8px 10px",
+        color: "#e2e8f0",
+        fontSize: "13px",
+        fontFamily: "'Courier New',monospace",
+        boxSizing: "border-box"
+      }
+    }));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      gridColumn: "1/-1"
+    }
+  }, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: "10px",
+      color: "#64748b",
+      display: "block",
+      marginBottom: "4px"
+    }
+  }, "NOTES"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: form.notes,
+    onChange: function onChange(e) {
+      return setForm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          notes: e.target.value
+        });
+      });
+    },
+    placeholder: "How did it feel?",
+    style: {
+      width: "100%",
+      background: "rgba(0,0,0,0.3)",
+      border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: "6px",
+      padding: "8px 10px",
+      color: "#e2e8f0",
+      fontSize: "13px",
+      fontFamily: "'Courier New',monospace",
+      boxSizing: "border-box"
+    }
+  }))), /*#__PURE__*/React.createElement("button", {
+    onClick: handleAdd,
+    style: {
+      width: "100%",
+      padding: "11px",
+      background: "rgba(34,197,94,0.2)",
+      border: "1px solid rgba(34,197,94,0.4)",
+      borderRadius: "8px",
+      color: "#4ade80",
+      fontSize: "13px",
+      fontWeight: "bold",
+      cursor: "pointer",
+      fontFamily: "'Courier New',monospace",
+      letterSpacing: "1px"
+    }
+  }, "\u2713 SAVE ENTRY")), sorted.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "10px",
+      color: "#475569",
+      letterSpacing: "2px",
+      marginBottom: "10px"
+    }
+  }, "HISTORY (", sorted.length, ")"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "6px"
+    }
+  }, sorted.map(function (e) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: e.id,
+      style: {
+        background: "rgba(0,0,0,0.25)",
+        border: "1px solid rgba(255,255,255,0.05)",
+        borderRadius: "8px",
+        padding: "12px 14px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        gap: "8px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "12px",
+        color: "#94a3b8",
+        marginBottom: "6px",
+        fontWeight: "bold"
+      }
+    }, new Date(e.date + "T12:00:00").toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric"
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "8px"
+      }
+    }, METRICS.map(function (m) {
+      return e[m.key] !== "" && e[m.key] != null && /*#__PURE__*/React.createElement("span", {
+        key: m.key,
+        style: {
+          background: "".concat(m.color, "15"),
+          border: "1px solid ".concat(m.color, "30"),
+          borderRadius: "4px",
+          padding: "2px 7px",
+          fontSize: "11px",
+          color: m.color
+        }
+      }, e[m.key], " ", m.unit);
+    })), e.notes && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "11px",
+        color: "#475569",
+        marginTop: "6px",
+        fontStyle: "italic"
+      }
+    }, "\"", e.notes, "\"")), deleteId === e.id ? /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: "6px",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return handleDelete(e.id);
+      },
+      style: {
+        background: "rgba(239,68,68,0.2)",
+        border: "1px solid rgba(239,68,68,0.4)",
+        borderRadius: "4px",
+        padding: "4px 8px",
+        color: "#f87171",
+        fontSize: "10px",
+        cursor: "pointer",
+        fontFamily: "'Courier New',monospace"
+      }
+    }, "DELETE"), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setDeleteId(null);
+      },
+      style: {
+        background: "rgba(255,255,255,0.05)",
+        border: "1px solid rgba(255,255,255,0.1)",
+        borderRadius: "4px",
+        padding: "4px 8px",
+        color: "#64748b",
+        fontSize: "10px",
+        cursor: "pointer",
+        fontFamily: "'Courier New',monospace"
+      }
+    }, "CANCEL")) : /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setDeleteId(e.id);
+      },
+      style: {
+        background: "none",
+        border: "none",
+        color: "#334155",
+        cursor: "pointer",
+        fontSize: "16px",
+        padding: "0 4px",
+        flexShrink: 0
+      }
+    }, "x")));
+  }))));
+}
+
+// ─── WEEK LOG ─────────────────────────────────────────────────────────────────
+function WeekLog(_ref6) {
+  var completions = _ref6.completions;
+  var todayIdx = todayDayIndex();
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "14px",
+      background: "rgba(255,255,255,0.03)",
+      border: "1px solid rgba(255,255,255,0.06)",
+      borderRadius: "8px",
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "10px",
+      color: "#94a3b8",
+      letterSpacing: "2px",
+      fontWeight: "bold",
+      marginBottom: "10px"
+    }
+  }, "THIS WEEK"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(7,1fr)",
+      gap: "6px"
+    }
+  }, DAY_PLANS.map(function (dp, i) {
+    var k = "day-".concat(i, "-").concat(getWeekStr()),
+      c = completions[k] || {
+        exDone: 0,
+        stretchDone: 0
+      };
+    var done = (c.exDone || 0) + (c.stretchDone || 0),
+      full = done === 6,
+      partial = done > 0 && done < 6,
+      isToday = i === todayIdx;
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "9px",
+        color: isToday ? dp.color : "#475569",
+        marginBottom: "4px",
+        fontWeight: isToday ? "bold" : "normal"
+      }
+    }, dp.day), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "28px",
+        height: "28px",
+        borderRadius: "50%",
+        margin: "0 auto",
+        position: "relative",
+        overflow: "hidden",
+        border: "2px solid ".concat(full ? dp.color : partial ? "rgba(250,204,21,0.6)" : "rgba(255,255,255,0.1)"),
+        background: "transparent"
+      }
+    }, full && /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        inset: 0,
+        background: dp.color,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "#000",
+        fontSize: "12px",
+        fontWeight: "bold"
+      }
+    }, "\u2713")), partial && /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: "".concat(done / 6 * 100, "%"),
+        background: "rgba(250,204,21,0.35)"
+      }
+    })), done > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "8px",
+        color: "#475569",
+        marginTop: "3px"
+      }
+    }, done, "/6"));
+  })));
+}
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+function WorkoutPlan() {
+  var _useState21 = useState("workout"),
+    _useState22 = _slicedToArray(_useState21, 2),
+    activeTab = _useState22[0],
+    setActiveTab = _useState22[1];
+  var _useState23 = useState(function () {
+      return todayDayIndex();
+    }),
+    _useState24 = _slicedToArray(_useState23, 2),
+    activeDayIdx = _useState24[0],
+    setActiveDayIdx = _useState24[1];
+  var _useState25 = useState(function () {
+      return ls("daily-completions", {});
+    }),
+    _useState26 = _slicedToArray(_useState25, 2),
+    completions = _useState26[0],
+    setCompletions = _useState26[1];
+  var _useState27 = useState(function () {
+      return ls("daily-swaps", {});
+    }),
+    _useState28 = _slicedToArray(_useState27, 2),
+    swaps = _useState28[0],
+    setSwaps = _useState28[1]; // {dayIdx: {ex:{0:item,...}, st:{0:item,...}}}
+  var _useState29 = useState(null),
+    _useState30 = _slicedToArray(_useState29, 2),
+    swapTarget = _useState30[0],
+    setSwapTarget = _useState30[1]; // {idx, kind:"exercise"|"stretch", original}
+  var _useState31 = useState(false),
+    _useState32 = _slicedToArray(_useState31, 2),
+    showSettings = _useState32[0],
+    setShowSettings = _useState32[1];
+  var _useState33 = useState(null),
+    _useState34 = _slicedToArray(_useState33, 2),
+    syncStatus = _useState34[0],
+    setSyncStatus = _useState34[1];
+  var weekNum = getWeekNumber(),
+    todayIdx = todayDayIndex();
+  var dp = DAY_PLANS[activeDayIdx];
+  var dayKey = "day-".concat(activeDayIdx, "-").concat(getWeekStr());
+  var comp = completions[dayKey] || {
+    exDone: 0,
+    exTotal: 3,
+    stretchDone: 0,
+    stretchTotal: 3,
+    exChecked: {},
+    stretchChecked: {}
+  };
+
+  // Get the base 3 picks for this day+week
+  var baseExercises = seededPick(dp.exercises, 3, weekNum * 7 + activeDayIdx);
+  var baseStretches = seededPick(dp.stretches, 3, weekNum * 7 + activeDayIdx + 100);
+
+  // Apply any swaps on top
+  var daySwaps = swaps[activeDayIdx] || {};
+  var exercises = baseExercises.map(function (ex, i) {
+    var _daySwaps$ex;
+    return (_daySwaps$ex = daySwaps.ex) !== null && _daySwaps$ex !== void 0 && _daySwaps$ex[i] ? _objectSpread(_objectSpread({}, daySwaps.ex[i]), {}, {
+      swapped: true,
+      original: ex.name
+    }) : ex;
+  });
+  var stretches = baseStretches.map(function (st, i) {
+    var _daySwaps$st;
+    return (_daySwaps$st = daySwaps.st) !== null && _daySwaps$st !== void 0 && _daySwaps$st[i] ? _objectSpread(_objectSpread({}, daySwaps.st[i]), {}, {
+      swapped: true,
+      original: st.name
+    }) : st;
+  });
+  function toggleEx(i) {
+    var nc = _objectSpread(_objectSpread({}, comp.exChecked), {}, _defineProperty({}, i, !comp.exChecked[i]));
+    var exDone = Object.values(nc).filter(Boolean).length;
+    var newComp = _objectSpread(_objectSpread({}, comp), {}, {
+      exChecked: nc,
+      exDone: exDone,
+      exTotal: 3
+    });
+    var newC = _objectSpread(_objectSpread({}, completions), {}, _defineProperty({}, dayKey, newComp));
+    setCompletions(newC);
+    lsSet("daily-completions", newC);
+    if (exDone === 3 && newComp.stretchDone === 3) fireDaySync(newComp);
+  }
+  function toggleStretch(i) {
+    var nc = _objectSpread(_objectSpread({}, comp.stretchChecked), {}, _defineProperty({}, i, !comp.stretchChecked[i]));
+    var stretchDone = Object.values(nc).filter(Boolean).length;
+    var newComp = _objectSpread(_objectSpread({}, comp), {}, {
+      stretchChecked: nc,
+      stretchDone: stretchDone,
+      stretchTotal: 3
+    });
+    var newC = _objectSpread(_objectSpread({}, completions), {}, _defineProperty({}, dayKey, newComp));
+    setCompletions(newC);
+    lsSet("daily-completions", newC);
+    if (comp.exDone === 3 && stretchDone === 3) fireDaySync(newComp);
+  }
+  function fireDaySync(_x3) {
+    return _fireDaySync.apply(this, arguments);
+  }
+  function _fireDaySync() {
+    _fireDaySync = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(c) {
+      var r;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.n) {
+          case 0:
+            setSyncStatus("syncing");
+            _context2.n = 1;
+            return syncToSheets("day_complete", {
+              day: dp.day,
+              label: dp.label,
+              focus: dp.focus,
+              date: todayStr(),
+              weekNum: weekNum,
+              done: c.exDone + c.stretchDone,
+              total: 6
+            });
+          case 1:
+            r = _context2.v;
+            setSyncStatus(r.ok ? "success" : r.reason === "no-url" ? null : "error");
+            setTimeout(function () {
+              return setSyncStatus(null);
+            }, 3000);
+          case 2:
+            return _context2.a(2);
+        }
+      }, _callee2);
+    }));
+    return _fireDaySync.apply(this, arguments);
+  }
+  function applySwap(replacement) {
+    if (!swapTarget) return;
+    var idx = swapTarget.idx,
+      kind = swapTarget.kind;
+    var field = kind === "exercise" ? "ex" : "st";
+    var newSwaps = _objectSpread(_objectSpread({}, swaps), {}, _defineProperty({}, activeDayIdx, _objectSpread(_objectSpread({}, daySwaps), {}, _defineProperty({}, field, _objectSpread(_objectSpread({}, daySwaps[field] || {}), {}, _defineProperty({}, idx, replacement))))));
+    setSwaps(newSwaps);
+    lsSet("daily-swaps", newSwaps);
+    setSwapTarget(null);
+  }
+  function revertSwap(idx, kind) {
+    var field = kind === "exercise" ? "ex" : "st";
+    var newSwaps = _objectSpread(_objectSpread({}, swaps), {}, _defineProperty({}, activeDayIdx, _objectSpread({}, daySwaps)));
+    if (newSwaps[activeDayIdx][field]) delete newSwaps[activeDayIdx][field][idx];
+    setSwaps(newSwaps);
+    lsSet("daily-swaps", newSwaps);
+  }
+  var exDone = comp.exDone || 0,
+    stretchDone = comp.stretchDone || 0,
+    totalDone = exDone + stretchDone,
+    allDone = totalDone === 6;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: "#09090f",
+      color: "#e2e8f0",
+      fontFamily: "'Courier New',monospace",
+      padding: "20px 16px",
+      maxWidth: "700px",
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "10px",
+      letterSpacing: "5px",
+      color: "#475569",
+      marginBottom: "6px"
+    }
+  }, "DAILY STRENGTH & CONDITIONING"), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontSize: "clamp(22px,5vw,38px)",
+      fontWeight: "900",
+      fontFamily: "'Georgia',serif",
+      background: "linear-gradient(135deg,#4ade80 0%,#3b82f6 40%,#e879f9 80%)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      margin: "0 0 4px",
+      lineHeight: 1.1
+    }
+  }, "STRENGTH \xB7 STRETCH \xB7 GO"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "11px",
+      color: "#64748b"
+    }
+  }, "3 exercises \xB7 3 stretches \xB7 15\u201330 min \xB7 every day"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "11px",
+      color: "#4ade80",
+      marginTop: "4px",
+      fontWeight: "bold"
+    }
+  }, "Today: ", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][todayIdx], " ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "#475569",
+      fontWeight: "normal"
+    }
+  }, "\xB7 Week ", weekNum + 1)), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowSettings(true);
+    },
+    style: {
+      marginTop: "10px",
+      padding: "5px 12px",
+      background: getSheetsUrl() ? "rgba(34,197,94,0.1)" : "rgba(255,255,255,0.05)",
+      border: "1px solid ".concat(getSheetsUrl() ? "rgba(34,197,94,0.3)" : "rgba(255,255,255,0.1)"),
+      borderRadius: "20px",
+      color: getSheetsUrl() ? "#4ade80" : "#64748b",
+      fontSize: "11px",
+      cursor: "pointer",
+      fontFamily: "'Courier New',monospace"
+    }
+  }, getSheetsUrl() ? "📊 Sheets: ON" : "📊 Set up Google Sheets")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: "6px",
+      marginBottom: "20px"
+    }
+  }, [{
+    key: "workout",
+    label: "💪 Today's Workout"
+  }, {
+    key: "progress",
+    label: "📈 Progress"
+  }].map(function (t) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: t.key,
+      onClick: function onClick() {
+        return setActiveTab(t.key);
+      },
+      style: {
+        flex: 1,
+        padding: "11px",
+        background: activeTab === t.key ? "rgba(255,255,255,0.09)" : "rgba(255,255,255,0.03)",
+        border: "1px solid ".concat(activeTab === t.key ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.06)"),
+        borderRadius: "8px",
+        cursor: "pointer",
+        color: activeTab === t.key ? "#f1f5f9" : "#64748b",
+        fontSize: "13px",
+        fontWeight: activeTab === t.key ? "bold" : "normal",
+        fontFamily: "'Courier New',monospace",
+        transition: "all 0.2s",
+        borderBottom: activeTab === t.key ? "2px solid #4ade80" : "2px solid transparent"
+      }
+    }, t.label);
+  })), activeTab === "workout" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(WeekLog, {
+    completions: completions
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(7,1fr)",
+      gap: "5px",
+      marginBottom: "16px"
+    }
+  }, DAY_PLANS.map(function (d, i) {
+    var k = "day-".concat(i, "-").concat(getWeekStr()),
+      c = completions[k] || {
+        exDone: 0,
+        stretchDone: 0
+      };
+    var done = (c.exDone || 0) + (c.stretchDone || 0),
+      full = done === 6,
+      partial = done > 0 && done < 6,
+      isToday = i === todayIdx;
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: function onClick() {
+        return setActiveDayIdx(i);
+      },
+      style: {
+        padding: "7px 3px",
+        background: activeDayIdx === i ? d.color : "rgba(255,255,255,0.04)",
+        color: activeDayIdx === i ? "#000" : "#94a3b8",
+        border: "2px solid ".concat(activeDayIdx === i ? d.color : isToday ? d.color + "80" : "rgba(255,255,255,0.07)"),
+        borderRadius: "6px",
+        cursor: "pointer",
+        fontFamily: "'Courier New',monospace",
+        fontSize: "10px",
+        fontWeight: "bold",
+        transition: "all 0.2s",
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", null, d.day), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "7px",
+        marginTop: "2px",
+        opacity: 0.8,
+        fontWeight: "normal"
+      }
+    }, d.label.split(" ")[0].toUpperCase()), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "7px",
+        height: "7px",
+        borderRadius: "50%",
+        background: full ? d.color : partial ? "rgba(250,204,21,0.7)" : "transparent",
+        border: full || partial ? "none" : "1px solid rgba(255,255,255,0.15)",
+        margin: "3px auto 0"
+      }
+    }));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "".concat(dp.color, "12"),
+      border: "1px solid ".concat(dp.color, "30"),
+      borderRadius: "12px",
+      padding: "16px 18px",
+      marginBottom: "16px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      flexWrap: "wrap",
+      gap: "10px"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "9px",
+      letterSpacing: "3px",
+      color: dp.color,
+      marginBottom: "3px"
+    }
+  }, dp.focus.toUpperCase()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "22px",
+      fontWeight: "900",
+      color: "#f1f5f9",
+      fontFamily: "'Georgia',serif"
+    }
+  }, dp.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "11px",
+      color: "#64748b",
+      marginTop: "2px"
+    }
+  }, dp.duration, activeDayIdx === todayIdx ? " · Today" : "")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "right"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "".concat(dp.color, "20"),
+      border: "1px solid ".concat(dp.color, "40"),
+      borderRadius: "8px",
+      padding: "6px 12px",
+      fontSize: "13px",
+      fontWeight: "bold",
+      color: allDone ? "#4ade80" : dp.color
+    }
+  }, allDone ? "✓ Complete!" : "".concat(totalDone, "/6 done")), activeDayIdx === todayIdx && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "9px",
+      color: "#4ade80",
+      letterSpacing: "1px",
+      marginTop: "4px"
+    }
+  }, "TODAY"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "10px",
+      color: dp.color,
+      letterSpacing: "3px",
+      fontWeight: "bold",
+      marginBottom: "10px",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px"
+    }
+  }, "\uD83D\uDCAA STRENGTH EXERCISES", /*#__PURE__*/React.createElement("span", {
+    style: {
+      background: "".concat(dp.color, "18"),
+      border: "1px solid ".concat(dp.color, "30"),
+      borderRadius: "10px",
+      padding: "2px 8px",
+      fontSize: "9px"
+    }
+  }, exDone, "/3")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px"
+    }
+  }, exercises.map(function (ex, i) {
+    var done = !!(comp.exChecked || {})[i];
+    var vid = videoLinks[ex.name] || videoLinks[ex.original || ""];
+    var zone = EX_ZONES[ex.swapped ? ex.original : ex.name] || "upper";
+    var zm = ZONE_META[zone] || {
+      label: "",
+      color: "#94a3b8"
+    };
+    var origEx = baseExercises[i];
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        background: done ? "rgba(34,197,94,0.07)" : "rgba(0,0,0,0.3)",
+        borderRadius: "10px",
+        padding: "14px 16px",
+        border: "1px solid ".concat(done ? "rgba(34,197,94,0.2)" : "rgba(255,255,255,0.05)"),
+        transition: "all 0.2s"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "flex-start",
+        gap: "12px"
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return toggleEx(i);
+      },
+      style: {
+        width: "24px",
+        height: "24px",
+        borderRadius: "50%",
+        border: "2px solid ".concat(done ? "#4ade80" : dp.color),
+        background: done ? "#4ade80" : "transparent",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+        flexShrink: 0,
+        marginTop: "2px",
+        transition: "all 0.2s"
+      }
+    }, done && /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "#000",
+        fontSize: "12px",
+        fontWeight: "bold",
+        lineHeight: 1
+      }
+    }, "\u2713")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        gap: "8px",
+        flexWrap: "wrap"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: "6px",
+        flexWrap: "wrap",
+        marginBottom: "2px"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: "bold",
+        fontSize: "15px",
+        color: done ? "#4ade80" : "#f1f5f9",
+        textDecoration: done ? "line-through" : "none"
+      }
+    }, ex.name), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "9px",
+        background: "".concat(zm.color, "15"),
+        border: "1px solid ".concat(zm.color, "30"),
+        color: zm.color,
+        borderRadius: "4px",
+        padding: "1px 5px",
+        whiteSpace: "nowrap"
+      }
+    }, zm.label), ex.swapped && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "9px",
+        background: "rgba(250,204,21,0.15)",
+        border: "1px solid rgba(250,204,21,0.3)",
+        color: "#facc15",
+        borderRadius: "4px",
+        padding: "1px 5px"
+      }
+    }, "SWAPPED")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "11px",
+        color: "#64748b",
+        lineHeight: "1.5"
+      }
+    }, ex.note), ex.swapped && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "10px",
+        color: "#475569",
+        marginTop: "2px"
+      }
+    }, "Was: ", ex.original)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        gap: "4px",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "12px",
+        fontWeight: "bold",
+        color: dp.color,
+        whiteSpace: "nowrap"
+      }
+    }, ex.sets), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "10px",
+        color: "#475569",
+        whiteSpace: "nowrap"
+      }
+    }, ex.time), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: "4px",
+        flexWrap: "wrap",
+        justifyContent: "flex-end"
+      }
+    }, vid && /*#__PURE__*/React.createElement("a", {
+      href: vid,
+      target: "_blank",
+      rel: "noopener noreferrer",
+      style: {
+        background: "rgba(220,30,30,0.15)",
+        border: "1px solid rgba(255,80,80,0.3)",
+        borderRadius: "4px",
+        padding: "3px 7px",
+        fontSize: "10px",
+        color: "#ff7070",
+        fontWeight: "bold",
+        textDecoration: "none",
+        whiteSpace: "nowrap"
+      }
+    }, "\u25B6 Tutorial"), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setSwapTarget({
+          idx: i,
+          kind: "exercise",
+          original: origEx
+        });
+      },
+      style: {
+        background: "rgba(148,163,184,0.1)",
+        border: "1px solid rgba(148,163,184,0.25)",
+        borderRadius: "4px",
+        padding: "3px 7px",
+        fontSize: "10px",
+        color: "#94a3b8",
+        cursor: "pointer",
+        whiteSpace: "nowrap"
+      }
+    }, "\u21C4 Swap"), ex.swapped && /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return revertSwap(i, "exercise");
+      },
+      style: {
+        background: "rgba(239,68,68,0.1)",
+        border: "1px solid rgba(239,68,68,0.25)",
+        borderRadius: "4px",
+        padding: "3px 7px",
+        fontSize: "10px",
+        color: "#f87171",
+        cursor: "pointer",
+        whiteSpace: "nowrap"
+      }
+    }, "Revert")))))));
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "10px",
+      color: "#38bdf8",
+      letterSpacing: "3px",
+      fontWeight: "bold",
+      marginBottom: "10px",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px"
+    }
+  }, "\uD83E\uDDD8 STRETCHES", /*#__PURE__*/React.createElement("span", {
+    style: {
+      background: "rgba(56,189,248,0.1)",
+      border: "1px solid rgba(56,189,248,0.25)",
+      borderRadius: "10px",
+      padding: "2px 8px",
+      fontSize: "9px",
+      color: "#38bdf8"
+    }
+  }, stretchDone, "/3")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px"
+    }
+  }, stretches.map(function (st, i) {
+    var done = !!(comp.stretchChecked || {})[i];
+    var vid = videoLinks[st.name] || videoLinks[st.original || ""];
+    var zone = ST_ZONES[st.swapped ? st.original : st.name] || "full";
+    var zm = ZONE_META[zone] || {
+      label: "",
+      color: "#38bdf8"
+    };
+    var origSt = baseStretches[i];
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        background: done ? "rgba(56,189,248,0.07)" : "rgba(0,0,0,0.25)",
+        borderRadius: "10px",
+        padding: "14px 16px",
+        border: "1px solid ".concat(done ? "rgba(56,189,248,0.2)" : "rgba(255,255,255,0.04)"),
+        transition: "all 0.2s"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "flex-start",
+        gap: "12px"
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return toggleStretch(i);
+      },
+      style: {
+        width: "24px",
+        height: "24px",
+        borderRadius: "50%",
+        border: "2px solid ".concat(done ? "#38bdf8" : "rgba(56,189,248,0.5)"),
+        background: done ? "#38bdf8" : "transparent",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+        flexShrink: 0,
+        marginTop: "2px",
+        transition: "all 0.2s"
+      }
+    }, done && /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "#000",
+        fontSize: "12px",
+        fontWeight: "bold",
+        lineHeight: 1
+      }
+    }, "\u2713")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        gap: "8px",
+        flexWrap: "wrap"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: "6px",
+        flexWrap: "wrap",
+        marginBottom: "2px"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: "bold",
+        fontSize: "15px",
+        color: done ? "#38bdf8" : "#f1f5f9",
+        textDecoration: done ? "line-through" : "none"
+      }
+    }, st.name), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "9px",
+        background: "".concat(zm.color, "15"),
+        border: "1px solid ".concat(zm.color, "30"),
+        color: zm.color,
+        borderRadius: "4px",
+        padding: "1px 5px",
+        whiteSpace: "nowrap"
+      }
+    }, zm.label), st.swapped && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "9px",
+        background: "rgba(250,204,21,0.15)",
+        border: "1px solid rgba(250,204,21,0.3)",
+        color: "#facc15",
+        borderRadius: "4px",
+        padding: "1px 5px"
+      }
+    }, "SWAPPED")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "11px",
+        color: "#64748b",
+        lineHeight: "1.5"
+      }
+    }, st.note), st.swapped && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "10px",
+        color: "#475569",
+        marginTop: "2px"
+      }
+    }, "Was: ", st.original)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        gap: "4px",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "12px",
+        fontWeight: "bold",
+        color: "#38bdf8",
+        whiteSpace: "nowrap"
+      }
+    }, st.duration), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: "4px",
+        flexWrap: "wrap",
+        justifyContent: "flex-end"
+      }
+    }, vid && /*#__PURE__*/React.createElement("a", {
+      href: vid,
+      target: "_blank",
+      rel: "noopener noreferrer",
+      style: {
+        background: "rgba(56,189,248,0.12)",
+        border: "1px solid rgba(56,189,248,0.3)",
+        borderRadius: "4px",
+        padding: "3px 7px",
+        fontSize: "10px",
+        color: "#38bdf8",
+        fontWeight: "bold",
+        textDecoration: "none",
+        whiteSpace: "nowrap"
+      }
+    }, "\u25B6 Tutorial"), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setSwapTarget({
+          idx: i,
+          kind: "stretch",
+          original: origSt
+        });
+      },
+      style: {
+        background: "rgba(148,163,184,0.1)",
+        border: "1px solid rgba(148,163,184,0.25)",
+        borderRadius: "4px",
+        padding: "3px 7px",
+        fontSize: "10px",
+        color: "#94a3b8",
+        cursor: "pointer",
+        whiteSpace: "nowrap"
+      }
+    }, "\u21C4 Swap"), st.swapped && /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return revertSwap(i, "stretch");
+      },
+      style: {
+        background: "rgba(239,68,68,0.1)",
+        border: "1px solid rgba(239,68,68,0.25)",
+        borderRadius: "4px",
+        padding: "3px 7px",
+        fontSize: "10px",
+        color: "#f87171",
+        cursor: "pointer",
+        whiteSpace: "nowrap"
+      }
+    }, "Revert")))))));
+  }))), allDone && /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      padding: "16px",
+      background: "rgba(34,197,94,0.1)",
+      border: "1px solid rgba(34,197,94,0.3)",
+      borderRadius: "12px",
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "22px",
+      marginBottom: "4px"
+    }
+  }, "\uD83C\uDF89"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "15px",
+      fontWeight: "bold",
+      color: "#4ade80"
+    }
+  }, "Day complete!"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "11px",
+      color: "#64748b",
+      marginTop: "2px"
+    }
+  }, "All 3 exercises and 3 stretches done.")), syncStatus && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      bottom: "20px",
+      left: "50%",
+      transform: "translateX(-50%)",
+      zIndex: 150,
+      minWidth: "200px"
+    }
+  }, /*#__PURE__*/React.createElement(SyncBanner, {
+    status: syncStatus
+  }))), activeTab === "progress" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "18px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "18px",
+      fontWeight: "900",
+      color: "#f1f5f9",
+      fontFamily: "'Georgia',serif",
+      marginBottom: "4px"
+    }
+  }, "Progress Tracker"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "12px",
+      color: "#475569"
+    }
+  }, "Log your stats whenever you measure them.")), /*#__PURE__*/React.createElement(ProgressTracker, {
+    onOpenSettings: function onOpenSettings() {
+      return setShowSettings(true);
+    }
+  })), swapTarget && /*#__PURE__*/React.createElement(SwapModal, {
+    item: swapTarget.original,
+    kind: swapTarget.kind,
+    onApply: applySwap,
+    onClose: function onClose() {
+      return setSwapTarget(null);
+    }
+  }), showSettings && /*#__PURE__*/React.createElement(SheetsSettings, {
+    onClose: function onClose() {
+      return setShowSettings(false);
+    }
+  }));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(WorkoutPlan));
+  </script>
+</body>
+</html>
